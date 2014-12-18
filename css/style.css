@@ -1,20 +1,19 @@
+html, body {
+	height: 100%;
+}
+
 body {
 	background-color: #000000;
-	margin: 0px;
+	margin: 0;
 	overflow: hidden;
 }
 
-#info {
-	position: absolute;
-	top: 0px; width: 100%;
-	color: #ffffff;
-	padding: 5px;
-	font-family:Monospace;
-	font-size:13px;
-	font-weight: bold;
-	text-align:center;
+#container {
+	height: 100%;
+	overflow: hidden;
+	cursor: pointer;
 }
 
-a {
-	color: #ffffff;
+#container:active {
+	cursor: move;
 }
