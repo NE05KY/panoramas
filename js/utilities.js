@@ -6,6 +6,33 @@ function animate() {
 }
 
 function update() {
+	var vector = new THREE.Vector3( mouse.x, mouse.y, 1 );
+	vector.unproject( camera )
+
+	raycaster.set( camera.position, vector.sub( camera.position ).normalize() );
+
+	var intersects = raycaster.intersectObjects( elements );
+
+	if ( intersects.length > 0 ) {
+
+		if ( INTERSECTED != intersects[ 0 ].object ) {
+
+			if ( INTERSECTED ) INTERSECTED.material.map = pointMapHovered;
+
+			INTERSECTED = intersects[ 0 ].object;
+			INTERSECTED.material.map = pointMapHovered;
+
+		}
+
+	} else {
+
+		if ( INTERSECTED ) INTERSECTED.material.map = pointMap;
+
+		INTERSECTED = null;
+
+	}
+
+
 	if ( isUserInteracting === false ) {
 		lon += 0.1;
 	}
@@ -65,8 +92,11 @@ function debugStats() {
 }
 
 function transit(texture) {
-	maxZoom(function() {
-		minZoom();
-		scene.children[0].material.map = THREE.ImageUtils.loadTexture( '/storage/2.jpg' );	
-	})
+	scene.children[0].material.map = THREE.ImageUtils.loadTexture( texture );
+
+	// debug animation
+	// maxZoom(function() {
+	// 	minZoom();
+	// 	scene.children[0].material.map = THREE.ImageUtils.loadTexture( '/storage/2.jpg' );	
+	// })
 }

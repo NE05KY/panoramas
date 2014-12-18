@@ -1,8 +1,15 @@
 var camera, scene, renderer;
+var mouse = new THREE.Vector2(), INTERSECTED;
 
 var isUserInteracting = false,
 	lon = 0, lat = 0,
 	phi = 0, theta = 0;
+
+var elements = [];
+
+var itemGeometry = new THREE.PlaneBufferGeometry(35, 35),
+      pointMapHovered = THREE.ImageUtils.loadTexture( "./img/icon-uh.png" ),
+      pointMap = THREE.ImageUtils.loadTexture( "./img/icon.png" );
 
 init();
 animate();
@@ -21,11 +28,8 @@ function init() {
 	geometry.applyMatrix( new THREE.Matrix4().makeScale( -1, 1, 1 ) );
 	
 	var material = new THREE.MeshBasicMaterial ( {
-		map: THREE.ImageUtils.loadTexture( '/storage/1.jpg' ),
+		map: THREE.ImageUtils.loadTexture( '/storage/img/1.jpg' )
 	} );
-
-	img1 = new Image();
-		img1.src = "/storage/2.jpg";
 
 	mesh = new THREE.Mesh( geometry, material );
 
@@ -34,6 +38,31 @@ function init() {
 	}
 	
 	scene.add( mesh );
+
+
+	// adding sprite
+	sprite = new THREE.Mesh( itemGeometry, new THREE.MeshBasicMaterial({
+          map: pointMap,
+          transparent: true 
+    }) );
+
+	sprite.position.x = -290;
+	sprite.position.y = -120;
+	sprite.position.z = 500;
+	sprite.href = '/storage/2.jpg';
+	sprite.position.normalize();
+	sprite.position.multiplyScalar( 497 );
+	sprite.lookAt(camera.position);
+
+	// sprite.callback = function() { console.log( this.name ); }
+	// sprite.on( 'click', transit );
+	// console.log(sprite);
+
+	elements.push(sprite);
+	scene.add( sprite );
+
+
+	raycaster = new THREE.Raycaster();
 
 	renderer = new THREE.WebGLRenderer();
 	renderer.setSize( window.innerWidth, window.innerHeight );
@@ -51,7 +80,7 @@ function init() {
 
 	document.addEventListener( 'mousewheel', onDocumentMouseWheel, false );
 
-	document.addEventListener( 'click', transit, false );
+	// sprite.addEventListener( 'click', transit, false );
 
 	window.addEventListener( 'resize', onWindowResize, false );
 
