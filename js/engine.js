@@ -46,17 +46,13 @@ function init() {
           transparent: true 
     }) );
 
-	sprite.position.x = -290;
-	sprite.position.y = -120;
-	sprite.position.z = 500;
-	sprite.href = '/storage/2.jpg';
+	sprite.position.x = 990;
+	sprite.position.y = -400;
+	sprite.position.z = 00;
+	sprite.href = '/storage/img/2.jpg';
 	sprite.position.normalize();
 	sprite.position.multiplyScalar( 497 );
 	sprite.lookAt(camera.position);
-
-	// sprite.callback = function() { console.log( this.name ); }
-	// sprite.on( 'click', transit );
-	// console.log(sprite);
 
 	elements.push(sprite);
 	scene.add( sprite );
@@ -80,9 +76,11 @@ function init() {
 
 	document.addEventListener( 'mousewheel', onDocumentMouseWheel, false );
 
-	// sprite.addEventListener( 'click', transit, false );
-
 	window.addEventListener( 'resize', onWindowResize, false );
 
-		
+	window.onload = function() {
+		// testing preload function
+		img2 = new Image();
+		img2.src = "/storage/img/2.jpg";
+	}
 }

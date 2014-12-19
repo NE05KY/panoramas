@@ -14,28 +14,24 @@ function update() {
 	var intersects = raycaster.intersectObjects( elements );
 
 	if ( intersects.length > 0 ) {
-
 		if ( INTERSECTED != intersects[ 0 ].object ) {
-
 			if ( INTERSECTED ) INTERSECTED.material.map = pointMapHovered;
-
 			INTERSECTED = intersects[ 0 ].object;
 			INTERSECTED.material.map = pointMapHovered;
-
 		}
-
 	} else {
-
 		if ( INTERSECTED ) INTERSECTED.material.map = pointMap;
-
 		INTERSECTED = null;
-
 	}
 
+	/* 
+		temporary disabled rotation 
 
 	if ( isUserInteracting === false ) {
 		lon += 0.1;
 	}
+
+	*/
 
 	lat = Math.max( - 85, Math.min( 85, lat ) );
 	phi = THREE.Math.degToRad( 90 - lat );
@@ -61,7 +57,7 @@ function zoom( ratio ) {
 	camera.updateProjectionMatrix();
 }
 
-function maxZoom(callback) {
+function maxZoom( callback ) {
 	camera.fov-=2;
 	camera.updateProjectionMatrix();
 
@@ -94,9 +90,13 @@ function debugStats() {
 function transit(texture) {
 	scene.children[0].material.map = THREE.ImageUtils.loadTexture( texture );
 
-	// debug animation
-	// maxZoom(function() {
-	// 	minZoom();
-	// 	scene.children[0].material.map = THREE.ImageUtils.loadTexture( '/storage/2.jpg' );	
-	// })
+	/* 
+		temporary disabled animation 
+
+	maxZoom(function() {
+		minZoom();
+		scene.children[0].material.map = THREE.ImageUtils.loadTexture( texture );	
+	})
+
+	*/
 }
