@@ -1,0 +1,19 @@
+html, body {
+    height: 100%;
+}
+
+body {
+    background-color: #000000;
+    margin: 0;
+    overflow: hidden;
+}
+
+#container {
+    height: 100%;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+#container:active {
+    cursor: move;
+}

@@ -9,6 +9,7 @@ function update() {
     var vector = new THREE.Vector3( mouse.x, mouse.y, 1 );
     vector.unproject( camera );
 
+    var raycaster = new THREE.Raycaster();
     raycaster.set( camera.position, vector.sub( camera.position ).normalize() );
 
     var intersects = raycaster.intersectObjects( elements );

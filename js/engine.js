@@ -8,8 +8,8 @@ var isUserInteracting = false,
 var elements = [];
 
 var itemGeometry = new THREE.PlaneBufferGeometry( 35, 35 ),
-    pointMapHovered = THREE.ImageUtils.loadTexture( "./img/icon-uh.png" ),
-    pointMap = THREE.ImageUtils.loadTexture( "./img/icon.png" );
+    pointMapHovered = THREE.ImageUtils.loadTexture( "/styles/icon-uh.png" ),
+    pointMap = THREE.ImageUtils.loadTexture( "/styles/icon.png" );
 
 init();
 animate();
@@ -41,14 +41,14 @@ function init() {
 
 
     // adding sprite
-    sprite = new THREE.Mesh( itemGeometry, new THREE.MeshBasicMaterial( {
+    var sprite = new THREE.Mesh( itemGeometry, new THREE.MeshBasicMaterial( {
         map: pointMap,
         transparent: true
     } ) );
 
-    sprite.position.x = 990;
-    sprite.position.y = -400;
-    sprite.position.z = 0;
+    sprite.position.x = -290;
+    sprite.position.y = -120;
+    sprite.position.z = 500;
     sprite.href = '/storage/img/2.jpg';
     sprite.position.normalize();
     sprite.position.multiplyScalar( 497 );
@@ -56,9 +56,6 @@ function init() {
 
     elements.push( sprite );
     scene.add( sprite );
-
-
-    raycaster = new THREE.Raycaster();
 
     renderer = new THREE.WebGLRenderer();
     renderer.setSize( window.innerWidth, window.innerHeight );
