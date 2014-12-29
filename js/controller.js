@@ -1,14 +1,8 @@
 'use strict';
 
 panoramaApp.controller( 'panoramaController',
-    [ '$scope', '$location', 'Panorama', 'Config',
-        function( $scope, $location, Panorama, Config ) {
-            // creating Three.js objects
-            $scope.itemGeometry = new THREE.PlaneBufferGeometry( 35, 35 );
-            $scope.pointMapHovered = THREE.ImageUtils.loadTexture( "/styles/icon-uh.png" );
-            $scope.pointMap = THREE.ImageUtils.loadTexture( "/styles/icon.png" );
-            $scope.mouse = new THREE.Vector2();
-
+    [ '$scope', '$location', 'Panorama', 'Config', 'Events',
+        function( $scope, $location, Panorama, Config, Events ) {
             // get all panoramas from server
             //$scope.panoramas = Panorama.query();
 
@@ -23,19 +17,23 @@ panoramaApp.controller( 'panoramaController',
             $scope.$watch( 'id', function( id ) {
                 if ( id ) {
                     $scope.panorama = Panorama.get( { id: id } );
+                    console.log( $scope.panorama );
                 } else {
                     $scope.panorama = Panorama.get( { id: 1 } );
+                    console.log( 'default panorama' );
                 }
             } );
-
 
             $scope.initEngine = function() {
                 var container, mesh;
 
                 container = document.getElementById( 'container' );
 
-                $scope.camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 1100 );
-                $scope.camera.target = new THREE.Vector3( 0, 0, 0 );
+                Config.itemGeometry = new THREE.PlaneBufferGeometry( 35, 35 );
+                Config.camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 1100 );
+                Config.renderer = new THREE.WebGLRenderer();
+
+                Config.camera.target = new THREE.Vector3( 0, 0, 0 );
 
                 $scope.scene = new THREE.Scene();
 
@@ -56,8 +54,8 @@ panoramaApp.controller( 'panoramaController',
 
 
                 // adding sprite
-                var sprite = new THREE.Mesh( $scope.itemGeometry, new THREE.MeshBasicMaterial( {
-                    map: $scope.pointMap,
+                var sprite = new THREE.Mesh( Config.itemGeometry, new THREE.MeshBasicMaterial( {
+                    map: Config.pointMap,
                     transparent: true
                 } ) );
 
@@ -67,30 +65,28 @@ panoramaApp.controller( 'panoramaController',
                 sprite.href = '/storage/img/2.jpg';
                 sprite.position.normalize();
                 sprite.position.multiplyScalar( 497 );
-                sprite.lookAt( $scope.camera.position );
+                sprite.lookAt( Config.camera.position );
 
                 Config.elements.push( sprite );
                 $scope.scene.add( sprite );
 
-                $scope.renderer = new THREE.WebGLRenderer();
-                $scope.renderer.setSize( window.innerWidth, window.innerHeight );
-                container.appendChild( $scope.renderer.domElement );
+                Config.renderer.setSize( window.innerWidth, window.innerHeight );
+                container.appendChild( Config.renderer.domElement );
 
                 // TODO: enable debug stats
                 //debugStats();
 
-                // TODO: fix events
-                //document.addEventListener( 'mousedown', Events.onDocumentMouseDown, false );
-                //document.addEventListener( 'mousemove', Events.onDocumentMouseMove, false );
-                //document.addEventListener( 'mouseup', Events.onDocumentMouseUp, false );
-                //
-                //document.addEventListener( 'touchstart', Events.onDocumentTouchStart, false );
-                //document.addEventListener( 'touchmove', Events.onDocumentTouchMove, false );
-                //document.addEventListener( 'touchend', Events.onDocumentTouchEnd, false );
-                //
-                //document.addEventListener( 'mousewheel', Events.onDocumentMouseWheel, false );
-                //
-                //window.addEventListener( 'resize', Events.onWindowResize, false );
+                document.addEventListener( 'mousedown', Events.onDocumentMouseDown, false );
+                document.addEventListener( 'mousemove', Events.onDocumentMouseMove, false );
+                document.addEventListener( 'mouseup', Events.onDocumentMouseUp, false );
+
+                document.addEventListener( 'touchstart', Events.onDocumentTouchStart, false );
+                document.addEventListener( 'touchmove', Events.onDocumentTouchMove, false );
+                document.addEventListener( 'touchend', Events.onDocumentTouchEnd, false );
+
+                document.addEventListener( 'mousewheel', Events.onDocumentMouseWheel, false );
+
+                window.addEventListener( 'resize', Events.onWindowResize, false );
             };
 
             $scope.animate = function() {
@@ -101,22 +97,22 @@ panoramaApp.controller( 'panoramaController',
             };
 
             $scope.update = function() {
-                var vector = new THREE.Vector3( $scope.mouse.x, $scope.mouse.y, 1 );
-                vector.unproject( $scope.camera );
+                var vector = new THREE.Vector3( Config.mouse.x, Config.mouse.y, 1 );
+                vector.unproject( Config.camera );
 
                 var raycaster = new THREE.Raycaster();
-                raycaster.set( $scope.camera.position, vector.sub( $scope.camera.position ).normalize() );
+                raycaster.set( Config.camera.position, vector.sub( Config.camera.position ).normalize() );
 
                 var intersects = raycaster.intersectObjects( Config.elements );
 
                 if ( intersects.length > 0 ) {
                     if ( $scope.INTERSECTED != intersects[ 0 ].object ) {
-                        if ( $scope.INTERSECTED ) $scope.INTERSECTED.material.map = pointMapHovered;
+                        if ( $scope.INTERSECTED ) $scope.INTERSECTED.material.map = Config.pointMapHovered;
                         $scope.INTERSECTED = intersects[ 0 ].object;
-                        $scope.INTERSECTED.material.map = pointMapHovered;
+                        $scope.INTERSECTED.material.map = Config.pointMapHovered;
                     }
                 } else {
-                    if ( $scope.INTERSECTED ) $scope.INTERSECTED.material.map = pointMap;
+                    if ( $scope.INTERSECTED ) $scope.INTERSECTED.material.map = Config.pointMap;
                     $scope.INTERSECTED = null;
                 }
 
@@ -127,19 +123,16 @@ panoramaApp.controller( 'panoramaController',
                 Config.phi = THREE.Math.degToRad( 90 - Config.lat );
                 Config.theta = THREE.Math.degToRad( Config.lon );
 
-                $scope.camera.target.x = 500 * Math.sin( Config.phi ) * Math.cos( Config.theta );
-                $scope.camera.target.y = 500 * Math.cos( Config.phi );
-                $scope.camera.target.z = 500 * Math.sin( Config.phi ) * Math.sin( Config.theta );
+                Config.camera.target.x = 500 * Math.sin( Config.phi ) * Math.cos( Config.theta );
+                Config.camera.target.y = 500 * Math.cos( Config.phi );
+                Config.camera.target.z = 500 * Math.sin( Config.phi ) * Math.sin( Config.theta );
 
-                $scope.camera.lookAt( $scope.camera.target );
-                $scope.renderer.render( $scope.scene, $scope.camera );
+                Config.camera.lookAt( Config.camera.target );
+                Config.renderer.render( $scope.scene, Config.camera );
             };
 
             $scope.initEngine();
             $scope.animate();
-
-
-
         }
     ]
 );
