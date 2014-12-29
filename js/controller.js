@@ -1,23 +1,16 @@
 'use strict';
 
 panoramaApp.controller( 'panoramaController',
-    [ '$scope', '$location', 'Panorama',
-        function( $scope, $location, Panorama ) {
+    [ '$scope', '$location', 'Panorama', 'Config',
+        function( $scope, $location, Panorama, Config ) {
             // creating Three.js objects
             $scope.itemGeometry = new THREE.PlaneBufferGeometry( 35, 35 );
             $scope.pointMapHovered = THREE.ImageUtils.loadTexture( "/styles/icon-uh.png" );
             $scope.pointMap = THREE.ImageUtils.loadTexture( "/styles/icon.png" );
-            $scope.elements = [];
             $scope.mouse = new THREE.Vector2();
-            $scope.isUserInteracting = false;
-            $scope.lon = 0;
-            $scope.lat = 0;
-            $scope.phi = 0;
-            $scope.theta = 0;
 
-
-            $scope.panoramas = Panorama.query();
-
+            // get all panoramas from server
+            //$scope.panoramas = Panorama.query();
 
             $scope.$watch( function() {
                     return $location.hash();
@@ -76,7 +69,7 @@ panoramaApp.controller( 'panoramaController',
                 sprite.position.multiplyScalar( 497 );
                 sprite.lookAt( $scope.camera.position );
 
-                $scope.elements.push( sprite );
+                Config.elements.push( sprite );
                 $scope.scene.add( sprite );
 
                 $scope.renderer = new THREE.WebGLRenderer();
@@ -87,17 +80,17 @@ panoramaApp.controller( 'panoramaController',
                 //debugStats();
 
                 // TODO: fix events
-                //document.addEventListener( 'mousedown', onDocumentMouseDown, false );
-                //document.addEventListener( 'mousemove', onDocumentMouseMove, false );
-                //document.addEventListener( 'mouseup', onDocumentMouseUp, false );
+                //document.addEventListener( 'mousedown', Events.onDocumentMouseDown, false );
+                //document.addEventListener( 'mousemove', Events.onDocumentMouseMove, false );
+                //document.addEventListener( 'mouseup', Events.onDocumentMouseUp, false );
                 //
-                //document.addEventListener( 'touchstart', onDocumentTouchStart, false );
-                //document.addEventListener( 'touchmove', onDocumentTouchMove, false );
-                //document.addEventListener( 'touchend', onDocumentTouchEnd, false );
+                //document.addEventListener( 'touchstart', Events.onDocumentTouchStart, false );
+                //document.addEventListener( 'touchmove', Events.onDocumentTouchMove, false );
+                //document.addEventListener( 'touchend', Events.onDocumentTouchEnd, false );
                 //
-                //document.addEventListener( 'mousewheel', onDocumentMouseWheel, false );
+                //document.addEventListener( 'mousewheel', Events.onDocumentMouseWheel, false );
                 //
-                //window.addEventListener( 'resize', onWindowResize, false );
+                //window.addEventListener( 'resize', Events.onWindowResize, false );
             };
 
             $scope.animate = function() {
@@ -114,7 +107,7 @@ panoramaApp.controller( 'panoramaController',
                 var raycaster = new THREE.Raycaster();
                 raycaster.set( $scope.camera.position, vector.sub( $scope.camera.position ).normalize() );
 
-                var intersects = raycaster.intersectObjects( $scope.elements );
+                var intersects = raycaster.intersectObjects( Config.elements );
 
                 if ( intersects.length > 0 ) {
                     if ( $scope.INTERSECTED != intersects[ 0 ].object ) {
@@ -128,15 +121,15 @@ panoramaApp.controller( 'panoramaController',
                 }
 
                 // TODO: move to switch
-                if ( !$scope.isUserInteracting ) $scope.lon += 0.1;
+                if ( !Config.isUserInteracting ) Config.lon += 0.1;
 
-                $scope.lat = Math.max( -85, Math.min( 85, $scope.lat ) );
-                $scope.phi = THREE.Math.degToRad( 90 - $scope.lat );
-                $scope.theta = THREE.Math.degToRad( $scope.lon );
+                Config.lat = Math.max( -85, Math.min( 85, Config.lat ) );
+                Config.phi = THREE.Math.degToRad( 90 - Config.lat );
+                Config.theta = THREE.Math.degToRad( Config.lon );
 
-                $scope.camera.target.x = 500 * Math.sin( $scope.phi ) * Math.cos( $scope.theta );
-                $scope.camera.target.y = 500 * Math.cos( $scope.phi );
-                $scope.camera.target.z = 500 * Math.sin( $scope.phi ) * Math.sin( $scope.theta );
+                $scope.camera.target.x = 500 * Math.sin( Config.phi ) * Math.cos( Config.theta );
+                $scope.camera.target.y = 500 * Math.cos( Config.phi );
+                $scope.camera.target.z = 500 * Math.sin( Config.phi ) * Math.sin( Config.theta );
 
                 $scope.camera.lookAt( $scope.camera.target );
                 $scope.renderer.render( $scope.scene, $scope.camera );
@@ -144,6 +137,8 @@ panoramaApp.controller( 'panoramaController',
 
             $scope.initEngine();
             $scope.animate();
+
+
 
         }
     ]

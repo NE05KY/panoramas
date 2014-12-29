@@ -9,3 +9,8 @@ panoramaApp.config(
         }
     ]
 );
+
+// service for RESTful API
+panoramaApp.factory( "Panorama", function( $resource ) {
+    return $resource( "/storage/panoramas/:id" );
+} );
