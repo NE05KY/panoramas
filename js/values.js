@@ -11,7 +11,7 @@ panoramaApp.value( 'Config', {
     renderer: undefined,
     itemGeometry: undefined,
     // sprite texture
-    pointMapHovered: THREE.ImageUtils.loadTexture( "/styles/icon-uh.png" ),
+    pointMapHovered: THREE.ImageUtils.loadTexture( "/styles/icon-hover.png" ),
     pointMap: THREE.ImageUtils.loadTexture( "/styles/icon.png" ),
 
     //

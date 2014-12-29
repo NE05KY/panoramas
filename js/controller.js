@@ -25,6 +25,7 @@ panoramaApp.controller( 'panoramaController',
             } );
 
             $scope.initEngine = function() {
+                console.log('start init');
                 var container, mesh;
 
                 container = document.getElementById( 'container' );
