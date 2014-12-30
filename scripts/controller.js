@@ -15,17 +15,21 @@ panoramaApp.controller( 'panoramaController',
             );
 
             $scope.$watch( 'id', function( id ) {
-                if ( id ) {
-                    $scope.panorama = Panoramas.get( { id: id } );
-                    console.log( $scope.panorama );
-                } else {
-                    $scope.panorama = Panoramas.get( { id: 1 } );
-                    console.log( 'default panorama' );
-                }
+                id = parseInt(id);
+                if ( isNaN( id ) )
+                    id = Config.defaultId;
+
+                $scope.panorama = Panoramas.get( { id: parseInt(id) }, function() {
+                    $scope.panorama.points = JSON.parse($scope.panorama.points);
+                    if ( !$scope.scene ) {
+                        $scope.initEngine();
+                    } else {
+                        $scope.switchPanorama();
+                    }
+                } );
             } );
 
             $scope.initEngine = function() {
-                console.log( 'start init' );
                 var container, mesh;
 
                 container = document.getElementById( 'container' );
@@ -38,7 +42,7 @@ panoramaApp.controller( 'panoramaController',
                 geometry.applyMatrix( new THREE.Matrix4().makeScale( -1, 1, 1 ) );
 
                 var material = new THREE.MeshBasicMaterial( {
-                    map: THREE.ImageUtils.loadTexture( '/storage/img/1.jpg' )
+                    map: THREE.ImageUtils.loadTexture( Config.img_path + $scope.panorama.file )
                 } );
 
                 mesh = new THREE.Mesh( geometry, material );
@@ -49,23 +53,7 @@ panoramaApp.controller( 'panoramaController',
 
                 $scope.scene.add( mesh );
 
-
-                // adding sprite
-                var sprite = new THREE.Mesh( Config.itemGeometry, new THREE.MeshBasicMaterial( {
-                    map: Config.pointMap,
-                    transparent: true
-                } ) );
-
-                sprite.position.x = -290;
-                sprite.position.y = -120;
-                sprite.position.z = 500;
-                sprite.href = '/storage/img/2.jpg';
-                sprite.position.normalize();
-                sprite.position.multiplyScalar( 497 );
-                sprite.lookAt( Config.camera.position );
-
-                Config.elements.push( sprite );
-                $scope.scene.add( sprite );
+                $scope.addSprite( '/storage/img/2.jpg', { x: -290, y: -120, z: 500 } );
 
                 Config.renderer.setSize( window.innerWidth, window.innerHeight );
                 container.appendChild( Config.renderer.domElement );
@@ -83,6 +71,8 @@ panoramaApp.controller( 'panoramaController',
                 document.addEventListener( 'mousewheel', Events.onDocumentMouseWheel, false );
 
                 window.addEventListener( 'resize', Events.onWindowResize, false );
+
+                $scope.animate();
             };
 
             $scope.animate = function() {
@@ -134,8 +124,27 @@ panoramaApp.controller( 'panoramaController',
                 container.appendChild( $scope.stats.domElement );
             };
 
-            $scope.initEngine();
-            $scope.animate();
+            $scope.addSprite = function( href, pos ) {
+                var sprite = new THREE.Mesh( Config.itemGeometry, new THREE.MeshBasicMaterial( {
+                    map: Config.pointMap,
+                    transparent: true
+                } ) );
+
+                sprite.position.x = pos.x;
+                sprite.position.y = pos.y;
+                sprite.position.z = pos.z;
+                sprite.href = href;
+                sprite.position.normalize();
+                sprite.position.multiplyScalar( 497 );
+                sprite.lookAt( Config.camera.position );
+
+                Config.elements.push( sprite );
+                $scope.scene.add( sprite );
+            };
+
+            $scope.switchPanorama = function() {
+
+            };
         }
     ]
 );

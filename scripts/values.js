@@ -2,6 +2,8 @@ panoramaApp.value( 'Config', {
     /* CONSTANTS */
 
     api_link: "/storage/panoramas/:id",     // link to RESTful API
+    img_path: "/storage/img/",
+    defaultId: 1,
     minZoom: 45,                            // zooming limit
     maxZoom: 75,                            //
     sphereRotation: true,                   // permanent sphere rotation

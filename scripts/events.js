@@ -65,7 +65,7 @@ panoramaApp.factory( "Events", function( Config ) {
     }
 
     function onDocumentMouseMove( event ) {
-        if ( Config.isUserInteracting === true ) {
+        if ( Config.isUserInteracting ) {
             Config.lon = ( startX - event.clientX ) * 0.1 + startLon;
             Config.lat = ( event.clientY - startY ) * 0.1 + startLat;
         }
