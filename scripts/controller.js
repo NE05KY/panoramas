@@ -1,8 +1,8 @@
 'use strict';
 
 panoramaApp.controller( 'panoramaController',
-    [ '$scope', '$location', 'Panorama', 'Config', 'Events',
-        function( $scope, $location, Panorama, Config, Events ) {
+    [ '$scope', '$location', 'Panoramas', 'Config', 'Events',
+        function( $scope, $location, Panoramas, Config, Events ) {
             // get all panoramas from server
             //$scope.panoramas = Panorama.query();
 
@@ -16,23 +16,19 @@ panoramaApp.controller( 'panoramaController',
 
             $scope.$watch( 'id', function( id ) {
                 if ( id ) {
-                    $scope.panorama = Panorama.get( { id: id } );
+                    $scope.panorama = Panoramas.get( { id: id } );
                     console.log( $scope.panorama );
                 } else {
-                    $scope.panorama = Panorama.get( { id: 1 } );
+                    $scope.panorama = Panoramas.get( { id: 1 } );
                     console.log( 'default panorama' );
                 }
             } );
 
             $scope.initEngine = function() {
-                console.log('start init');
+                console.log( 'start init' );
                 var container, mesh;
 
                 container = document.getElementById( 'container' );
-
-                Config.itemGeometry = new THREE.PlaneBufferGeometry( 35, 35 );
-                Config.camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 1100 );
-                Config.renderer = new THREE.WebGLRenderer();
 
                 Config.camera.target = new THREE.Vector3( 0, 0, 0 );
 
@@ -74,8 +70,7 @@ panoramaApp.controller( 'panoramaController',
                 Config.renderer.setSize( window.innerWidth, window.innerHeight );
                 container.appendChild( Config.renderer.domElement );
 
-                // TODO: enable debug stats
-                //debugStats();
+                if ( Config.debugStats ) $scope.debugStats( container );
 
                 document.addEventListener( 'mousedown', Events.onDocumentMouseDown, false );
                 document.addEventListener( 'mousemove', Events.onDocumentMouseMove, false );
@@ -94,7 +89,7 @@ panoramaApp.controller( 'panoramaController',
                 requestAnimationFrame( $scope.animate );
                 $scope.update();
 
-                //stats.update();
+                if ( Config.debugStats ) $scope.stats.update();
             };
 
             $scope.update = function() {
@@ -117,8 +112,7 @@ panoramaApp.controller( 'panoramaController',
                     $scope.INTERSECTED = null;
                 }
 
-                // TODO: move to switch
-                if ( !Config.isUserInteracting ) Config.lon += 0.1;
+                if ( !Config.isUserInteracting && Config.sphereRotation ) Config.lon += 0.1;
 
                 Config.lat = Math.max( -85, Math.min( 85, Config.lat ) );
                 Config.phi = THREE.Math.degToRad( 90 - Config.lat );
@@ -130,6 +124,14 @@ panoramaApp.controller( 'panoramaController',
 
                 Config.camera.lookAt( Config.camera.target );
                 Config.renderer.render( $scope.scene, Config.camera );
+            };
+
+            $scope.debugStats = function( container ) {
+                $scope.stats = new Stats();
+                $scope.stats.domElement.style.position = 'absolute';
+                $scope.stats.domElement.style.top = '0px';
+                $scope.stats.domElement.style.zIndex = 100;
+                container.appendChild( $scope.stats.domElement );
             };
 
             $scope.initEngine();

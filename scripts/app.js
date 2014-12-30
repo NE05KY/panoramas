@@ -11,6 +11,6 @@ panoramaApp.config(
 );
 
 // service for RESTful API
-panoramaApp.factory( "Panorama", function( $resource ) {
-    return $resource( "/storage/panoramas/:id" );
+panoramaApp.factory( "Panoramas", function( $resource, Config ) {
+    return $resource( Config.api_link );
 } );

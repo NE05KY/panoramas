@@ -20,7 +20,7 @@ panoramaApp.factory( "Events", function( Config ) {
     }
 
     function onDocumentTouchMove( event ) {
-        if ( Config.isUserInteracting === true ) {
+        if ( Config.isUserInteracting ) {
             Config.lon = ( startX - event.changedTouches[ 0 ].clientX ) * 0.1 + startLon;
             Config.lat = ( event.changedTouches[ 0 ].clientY - startY ) * 0.1 + startLat;
         }
@@ -79,7 +79,12 @@ panoramaApp.factory( "Events", function( Config ) {
     }
 
     function onDocumentMouseWheel( event ) {
-        zoom( event.wheelDeltaY );
+        if ( ( Config.camera.fov > Config.minZoom && event.wheelDeltaY > 0) ||
+            ( Config.camera.fov < Config.maxZoom && event.wheelDeltaY < 0) ) {
+            Config.camera.fov -= event.wheelDeltaY * 0.05;
+        }
+
+        Config.camera.updateProjectionMatrix();
     }
 
     return {
@@ -94,6 +99,5 @@ panoramaApp.factory( "Events", function( Config ) {
         onDocumentMouseWheel: onDocumentMouseWheel,
         //
         onWindowResize: onWindowResize
-
     }
 } );
