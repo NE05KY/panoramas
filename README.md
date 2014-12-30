@@ -1,20 +1,21 @@
-VSU PANORAMOS
-=============
+#PANORAMAS
 
 Description
 
-Requirements
-------------
+##Install
 
-- PHP 5.4+ & PDO
-- SQLite
+First of all install Node.js
 
-Installation
-------------
+### npm
 
-Nginx:
+    npm install bower
+    bower install
 
-	location / {
+
+
+### nginx:
+
+    location / {
 		if (!-e $request_filename){
 			rewrite ^(.*)$ /index.php/$1 break;
 		}
