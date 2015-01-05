@@ -20,17 +20,3 @@ function minZoom() {
         setTimeout( minZoom, 1 )
     }
 }
-
-function transit( texture ) {
-    scene.children[ 0 ].material.map = THREE.ImageUtils.loadTexture( texture );
-
-    /*
-     temporary disabled animation
-
-     maxZoom(function() {
-     minZoom();
-     scene.children[0].material.map = THREE.ImageUtils.loadTexture( texture );
-     })
-
-     */
-}

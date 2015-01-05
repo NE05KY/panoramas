@@ -48,10 +48,8 @@ panoramaApp.factory( "Events", function( Config ) {
         var intersects = ray.intersectObjects( Config.elements );
 
         // if there is one (or more) intersections
-        if ( intersects.length > 0 ) {
-            console.log( intersects[ 0 ] );
-            // TODO: fix transition
-            //transit( intersects[ 0 ].object.href );
+        if ( intersects.length ) {
+            location.hash = intersects[ 0 ].object.pano_id;
         }
 
         Config.isUserInteracting = true;
@@ -61,7 +59,6 @@ panoramaApp.factory( "Events", function( Config ) {
 
         startLon = Config.lon;
         startLat = Config.lat;
-
     }
 
     function onDocumentMouseMove( event ) {
