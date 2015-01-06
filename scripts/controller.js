@@ -19,14 +19,15 @@ panoramaApp.controller( 'panoramaController',
                 if ( isNaN( id ) ) id = Config.defaultId;
 
                 $scope.panorama = Panoramas.get( { id: id }, function() {
-                    $scope.panorama.points = JSON.parse( $scope.panorama.points );
+                    // fix for relational db
+                    //$scope.panorama.points = JSON.parse( $scope.panorama.points );
+
                     $scope.panorama.file = Config.img_path + $scope.panorama.file;
                     if ( !$scope.scene ) {
                         $scope.initEngine();
                     } else {
                         $scope.switchPanorama();
                     }
-                    console.log( $scope.panorama );
                 } );
             } );
 
