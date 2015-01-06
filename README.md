@@ -15,8 +15,10 @@ First of all install Node.js
 
 ### nginx:
 
-    location / {
-		if (!-e $request_filename){
-			rewrite ^(.*)$ /index.php/$1 break;
-		}
+	location ~ ^/api/(.*)$ {
+		rewrite ^/api/(.*)$ /api/index.php/$1 break;
+		include fastcgi_params;
+		fastcgi_param SCRIPT_FILENAME /var/www/api/index.php;
+		fastcgi_param SCRIPT_NAME /api/index.php;
+		fastcgi_pass unix:/var/run/php5-fpm.sock;
 	}
