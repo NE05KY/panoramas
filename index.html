@@ -5,16 +5,17 @@
   <meta name="viewport" content="ya-title=fade,ya-dock=fade">
   <title>PANORAMAS</title>
 
+  <script>
+    document.write( '<base href="' + document.location + '" />' );
+  </script>
+
   <link rel="stylesheet" href="styles/style.css">
+
   <!-- libs -->
   <script src="/bower_components/angular/angular.min.js"></script>
   <script src="/bower_components/angular-resource/angular-resource.min.js"></script>
   <script src="/bower_components/threejs/build/three.min.js"></script>
   <script src="/bower_components/stats.js/build/stats.min.js"></script>
-
-  <script>
-    document.write( '<base href="' + document.location + '" />' );
-  </script>
 
   <!-- engine -->
   <script src="scripts/app.js"></script>
@@ -23,6 +24,7 @@
   <script src="scripts/values.js"></script>
 </head>
 <body ng-controller="panoramaController">
+<div id="spinner"></div>
   <div id="container"></div>
 </body>
 </html>

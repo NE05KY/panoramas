@@ -44,7 +44,7 @@ panoramaApp.controller( 'panoramaController',
                 geometry.applyMatrix( new THREE.Matrix4().makeScale( -1, 1, 1 ) );
 
                 var material = new THREE.MeshBasicMaterial( {
-                    map: THREE.ImageUtils.loadTexture( $scope.panorama.file )
+                    map: THREE.ImageUtils.loadTexture( $scope.panorama.file, null, $scope.hideSpinner )
                 } );
 
                 mesh = new THREE.Mesh( geometry, material );
@@ -73,6 +73,7 @@ panoramaApp.controller( 'panoramaController',
                 document.addEventListener( 'mousewheel', Events.onDocumentMouseWheel, false );
 
                 window.addEventListener( 'resize', Events.onWindowResize, false );
+
 
                 $scope.animate();
             };
@@ -156,8 +157,13 @@ panoramaApp.controller( 'panoramaController',
             };
 
             $scope.preLoadTextures = function() {
-
+                alert( 1 );
             };
+
+            $scope.hideSpinner = function() {
+                document.getElementById( 'container' ).style.display = "block";
+                document.getElementById( 'spinner' ).style.display = "none";
+            }
         }
     ]
 );

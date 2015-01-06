@@ -20,6 +20,6 @@ panoramaApp.factory( 'Panoramas', function( $resource, Config ) {
         {
             apiKey: Config.api_key,
             fo: true,
-            f: { "_id": 0 }
+            f: { _id: 0 }
         } );
 } );
