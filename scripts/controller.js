@@ -152,17 +152,24 @@ panoramaApp.controller( 'panoramaController',
             };
 
             $scope.switchPanorama = function() {
-                $scope.scene.children[ 0 ].material.map = THREE.ImageUtils.loadTexture( $scope.panorama.file );
+                $scope.scene.children[ 0 ].material.map = THREE.ImageUtils.loadTexture( $scope.panorama.file, null, $scope.preLoadTextures() );
                 $scope.loadSprites( $scope.panorama.points );
             };
 
             $scope.preLoadTextures = function() {
-                alert( 1 );
+                $scope.panorama.points.forEach( function( item ) {
+                    Panoramas.get( { id: item.id }, function( pano ) {
+                        console.log( pano.file );
+                        new Image().src = Config.img_path + pano.file;
+                    } );
+                } );
             };
 
             $scope.hideSpinner = function() {
                 document.getElementById( 'container' ).style.display = "block";
                 document.getElementById( 'spinner' ).style.display = "none";
+
+                $scope.preLoadTextures();
             }
         }
     ]
