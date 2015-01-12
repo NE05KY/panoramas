@@ -1,10 +1,8 @@
 panoramaApp.value( 'Config', {
     /* CONSTANTS */
 
-    //api_link: "/storage/panoramas/:id",     // link to RESTful API
-    api_link: "https://api.mongolab.com/api/1/databases/panoramas/collections/panoramas?q={'id': :id}",
-    api_key: "",
-    img_path: "/textures/",
+    api_link: '/api/db.json',
+    texture_path: "/textures/",
     defaultId: 1,
     minZoom: 45,                            // zooming limit
     maxZoom: 75,                            //

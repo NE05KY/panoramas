@@ -3,9 +3,6 @@
 panoramaApp.controller( 'panoramaController',
     [ '$scope', '$location', 'Panoramas', 'Config', 'Events',
         function( $scope, $location, Panoramas, Config, Events ) {
-            // get all panoramas from server
-            //$scope.panoramas = Panorama.query();
-
             $scope.$watch( function() {
                     return $location.hash();
                 },
@@ -15,24 +12,18 @@ panoramaApp.controller( 'panoramaController',
             );
 
             $scope.$watch( 'id', function( id ) {
-                id = parseInt( id );
-                if ( isNaN( id ) ) id = Config.defaultId;
-
-                $scope.panorama = Panoramas.get( { id: id }, function() {
-                    // fix for relational db
-                    //$scope.panorama.points = JSON.parse( $scope.panorama.points );
-
-                    $scope.panorama.file = Config.img_path + $scope.panorama.file;
-                    if ( !$scope.scene ) {
-                        $scope.initEngine();
-                    } else {
-                        $scope.switchPanorama();
-                    }
-                } );
+                if ( !$scope.scene ) {
+                    Panoramas.query( $scope.initEngine );
+                } else {
+                    $scope.panorama = Panoramas.get( id );
+                    $scope.switchPanorama();
+                }
             } );
 
             $scope.initEngine = function() {
                 var container, mesh;
+
+                $scope.panorama = Panoramas.get( $scope.id );
 
                 container = document.getElementById( 'container' );
 
@@ -55,7 +46,7 @@ panoramaApp.controller( 'panoramaController',
 
                 $scope.scene.add( mesh );
 
-                $scope.loadSprites( $scope.panorama.points );
+                $scope.loadSprites();
 
                 Config.renderer.setSize( window.innerWidth, window.innerHeight );
                 container.appendChild( Config.renderer.domElement );
@@ -73,7 +64,6 @@ panoramaApp.controller( 'panoramaController',
                 document.addEventListener( 'mousewheel', Events.onDocumentMouseWheel, false );
 
                 window.addEventListener( 'resize', Events.onWindowResize, false );
-
 
                 $scope.animate();
             };
@@ -132,7 +122,7 @@ panoramaApp.controller( 'panoramaController',
                 Config.elements = [];
                 $scope.scene.children.length = 1;
 
-                points.forEach( function( item ) {
+                $scope.panorama.points.forEach( function( item ) {
                     var sprite = new THREE.Mesh( Config.itemGeometry, new THREE.MeshBasicMaterial( {
                         map: Config.pointMap,
                         transparent: true
@@ -153,15 +143,12 @@ panoramaApp.controller( 'panoramaController',
 
             $scope.switchPanorama = function() {
                 $scope.scene.children[ 0 ].material.map = THREE.ImageUtils.loadTexture( $scope.panorama.file, null, $scope.preLoadTextures() );
-                $scope.loadSprites( $scope.panorama.points );
+                $scope.loadSprites();
             };
 
             $scope.preLoadTextures = function() {
                 $scope.panorama.points.forEach( function( item ) {
-                    Panoramas.get( { id: item.id }, function( pano ) {
-                        console.log( pano.file );
-                        new Image().src = Config.img_path + pano.file;
-                    } );
+                    new Image().src = Panoramas.get( item.id ).file;
                 } );
             };
 
