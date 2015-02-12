@@ -6,6 +6,8 @@
     "angular": "~1.3.8",
     "angular-resource": "~1.3.8",
     "threejs": "*",
-    "stats.js": "*"
+    "stats.js": "*",
+    "angular-route": "~1.3.8",
+    "foundation": "~5.5.0"
   }
 }

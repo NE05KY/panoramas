@@ -1,6 +1,6 @@
 'use strict';
 
-var panoramaApp = angular.module( 'panoramaApp', [ 'ngResource' ] );
+var panoramaApp = angular.module( 'panoramaApp', [] );
 
 panoramaApp.config(
     [ '$locationProvider',

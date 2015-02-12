@@ -1,8 +1,8 @@
 panoramaApp.value( 'Config', {
     /* CONSTANTS */
 
-    api_link: '/api/db.json',
-    texture_path: "/textures/",
+    api_link: '/api/',
+    texture_path: "/api/textures/",
     defaultId: 1,
     minZoom: 45,                            // zooming limit
     maxZoom: 75,                            //
@@ -25,5 +25,4 @@ panoramaApp.value( 'Config', {
     // sprite texture
     pointMapHovered: THREE.ImageUtils.loadTexture( "/styles/icon-hover.png" ),
     pointMap: THREE.ImageUtils.loadTexture( "/styles/icon.png" )
-
 } );
