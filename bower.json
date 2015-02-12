@@ -1,13 +1,14 @@
 {
   "name": "vsu-pano",
   "version": "0.0.0",
+  "private": true,
   "homepage": "https://github.com/NE05KY/vsu-pano",
   "dependencies": {
-    "angular": "~1.3.8",
-    "angular-resource": "~1.3.8",
+    "angular": "~1.3",
+    "angular-resource": "~1.3",
+    "angular-route": "~1.3",
     "threejs": "*",
     "stats.js": "*",
-    "angular-route": "~1.3.8",
-    "foundation": "~5.5.0"
+    "foundation": "~5.5"
   }
 }

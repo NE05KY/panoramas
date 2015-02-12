@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en" ng-app="panoramaManager">
+<head>
+    <meta charset="utf-8">
+    <title>Pano-manager</title>
+
+    <link rel="stylesheet" href="../bower_components/foundation/css/normalize.css"/>
+    <link rel="stylesheet" href="../bower_components/foundation/css/foundation.css"/>
+    <style>
+        .row {
+            max-width: 80rem;
+        }
+    </style>
+
+    <!-- libs -->
+    <script src="../bower_components/angular/angular.js"></script>
+    <script src="../bower_components/angular-resource/angular-resource.min.js"></script>
+    <script src="../bower_components/angular-route/angular-route.min.js"></script>
+    <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="../bower_components/foundation/js/foundation.min.js"></script>
+
+    <!-- engine -->
+    <script src="./app.js"></script>
+
+</head>
+<body ng-controller="PanoramasCtrl">
+<nav class="top-bar" data-topbar role="navigation">
+    <ul class="title-area">
+        <li class="name">
+            <h1><a href="#">Panoramas Manager</a></h1>
+        </li>
+        <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+        <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+    </ul>
+
+    <section class="top-bar-section">
+        <!-- Right Nav Section -->
+        <ul class="right">
+            <li><a href="#">Exit</a></li>
+        </ul>
+
+        <ul class="left">
+            <li><a href="#" ng-click="new()" class="button tiny success">New</a></li>
+        </ul>
+    </section>
+</nav>
+
+<div class="row">
+    <div class="large-12 columns">
+        <table>
+            <thead>
+            <tr>
+                <th width="50">ID</th>
+                <th width="200">Image</th>
+                <th>Name</th>
+                <th>File</th>
+                <th width="200">Points</th>
+                <th width="100">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="pano in panoramas">
+                <td>{{pano.id}}</td>
+                <td>
+                    <a class="th" ng-href="/api/textures/{{pano.file}}">
+                        <img ng-src="/api/textures/{{pano.file}}">
+                    </a>
+                </td>
+                <td>{{pano.name}}</td>
+
+                <td>{{pano.file}}</td>
+                <td>{{pano.points}}</td>
+                <td>
+                    <a href="#" class="button tiny" ng-click="edit(pano)">Edit</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div id="editModal" class="reveal-modal" data-reveal>
+    <h2>Panorama edit</h2>
+
+    <div class="row">
+        <div class="large-12 columns">
+            <form>
+                <div class="row">
+                    <div class="large-4 columns">
+                        <label>ID
+                            <input ng-model="model.id" type="text"/>
+                        </label>
+                    </div>
+                    <div class="large-4 columns">
+                        <label>Name
+                            <input ng-model="model.name" type="text"/>
+                        </label>
+                    </div>
+                    <div class="large-4 columns">
+                        <label>File
+                            <input type="file"/>
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="large-12 columns">
+                        <label>Points
+                            <textarea></textarea>
+                        </label>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="large-1 columns">
+            <a href="#" class="button tiny alert" ng-click="remove()">Remove</a>
+        </div>
+        <div class="large-2 large-offset-9 columns">
+            <a href="#" class="button tiny success right" ng-click="save()">Save</a>
+        </div>
+    </div>
+    <a class="close-reveal-modal">&#215;</a>
+</div>
+
+</body>
+</html>
