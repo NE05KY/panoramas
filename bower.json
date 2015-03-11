@@ -2,13 +2,13 @@
   "name": "vsu-pano",
   "version": "0.0.0",
   "private": true,
-  "homepage": "https://github.com/NE05KY/vsu-pano",
+  "homepage": "https://github.com/NE05KY/panoramas",
   "dependencies": {
-    "angular": "~1.3",
-    "angular-resource": "~1.3",
-    "angular-route": "~1.3",
-    "threejs": "*",
-    "stats.js": "*",
-    "foundation": "~5.5"
+    "angular": "1.3.14",
+    "angular-resource": "1.3.14",
+    "angular-route": "1.3.14",
+    "threejs": "r70",
+    "stats.js": "r12",
+    "foundation": "5.5.1"
   }
 }
