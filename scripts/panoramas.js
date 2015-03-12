@@ -4,7 +4,7 @@ panoramaApp.factory( 'Panoramas', function( $http, $filter, Config ) {
     var panoramas;
 
     function query( callback ) {
-        $http.get( Config.api_link ).success( function( data ) {
+        $http.get( Config.apiLink ).success( function( data ) {
             panoramas = $filter( 'pathPrepend' )( data );
 
             callback();
@@ -13,7 +13,9 @@ panoramaApp.factory( 'Panoramas', function( $http, $filter, Config ) {
 
     function get( id ) {
         id = parseInt( id );
-        if ( isNaN( id ) ) id = Config.defaultId;
+        if ( isNaN( id ) ) {
+            id = Config.defaultId;
+        }
         return $filter( 'getById' )( panoramas, id );
     }
 
