@@ -1,0 +1,17 @@
+{
+  "env": {
+    "browser": 1
+  },
+
+  "globals": {
+    "angular": 1,
+    "THREE": 1,
+    "Stats": 1
+  },
+
+  "rules": {
+    "quotes": [2, "single"],
+    "global-strict": 0, // deprecated rule
+    "eol-last": 0
+  }
+}
