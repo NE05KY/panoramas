@@ -1,10 +1,8 @@
-'use strict';
-
 panoramaApp.value( 'Config', {
     /* CONSTANTS */
 
-    apiLink: 'http://pano.ne05ky.me/api/',
-    texturePath: 'http://pano.ne05ky.me/api/textures/',
+    api_link: '/api/',
+    texture_path: "/api/textures/",
     defaultId: 1,
     minZoom: 45,                            // zooming limit
     maxZoom: 75,                            //
@@ -25,6 +23,6 @@ panoramaApp.value( 'Config', {
     renderer: new THREE.WebGLRenderer(),
     itemGeometry: new THREE.PlaneBufferGeometry( 35, 35 ),
     // sprite texture
-    pointMapHovered: THREE.ImageUtils.loadTexture( '/styles/icon-hover.png' ),
-    pointMap: THREE.ImageUtils.loadTexture( '/styles/icon.png' )
+    pointMapHovered: THREE.ImageUtils.loadTexture( "/styles/icon-hover.png" ),
+    pointMap: THREE.ImageUtils.loadTexture( "/styles/icon.png" )
 } );

@@ -51,9 +51,7 @@ panoramaApp.controller( 'panoramaController',
                 Config.renderer.setSize( window.innerWidth, window.innerHeight );
                 container.appendChild( Config.renderer.domElement );
 
-                if ( Config.debugStats ) {
-                    $scope.debugStats( container );
-                }
+                if ( Config.debugStats ) $scope.debugStats( container );
 
                 document.addEventListener( 'mousedown', Events.onDocumentMouseDown, false );
                 document.addEventListener( 'mousemove', Events.onDocumentMouseMove, false );
@@ -74,9 +72,7 @@ panoramaApp.controller( 'panoramaController',
                 requestAnimationFrame( $scope.animate );
                 $scope.update();
 
-                if ( Config.debugStats ) {
-                    $scope.stats.update();
-                }
+                if ( Config.debugStats ) $scope.stats.update();
             };
 
             $scope.update = function() {
@@ -89,23 +85,17 @@ panoramaApp.controller( 'panoramaController',
                 var intersects = raycaster.intersectObjects( Config.elements );
 
                 if ( intersects.length > 0 ) {
-                    if ( $scope.INTERSECTED !== intersects[ 0 ].object ) {
-                        if ( $scope.INTERSECTED ) {
-                            $scope.INTERSECTED.material.map = Config.pointMapHovered;
-                        }
+                    if ( $scope.INTERSECTED != intersects[ 0 ].object ) {
+                        if ( $scope.INTERSECTED ) $scope.INTERSECTED.material.map = Config.pointMapHovered;
                         $scope.INTERSECTED = intersects[ 0 ].object;
                         $scope.INTERSECTED.material.map = Config.pointMapHovered;
                     }
                 } else {
-                    if ( $scope.INTERSECTED ) {
-                        $scope.INTERSECTED.material.map = Config.pointMap;
-                    }
+                    if ( $scope.INTERSECTED ) $scope.INTERSECTED.material.map = Config.pointMap;
                     $scope.INTERSECTED = null;
                 }
 
-                if ( !Config.isUserInteracting && Config.sphereRotation ) {
-                    Config.lon += 0.1;
-                }
+                if ( !Config.isUserInteracting && Config.sphereRotation ) Config.lon += 0.1;
 
                 Config.lat = Math.max( -85, Math.min( 85, Config.lat ) );
                 Config.phi = THREE.Math.degToRad( 90 - Config.lat );
@@ -163,11 +153,11 @@ panoramaApp.controller( 'panoramaController',
             };
 
             $scope.hideSpinner = function() {
-                document.getElementById( 'container' ).style.display = 'block';
-                document.getElementById( 'spinner' ).style.display = 'none';
+                document.getElementById( 'container' ).style.display = "block";
+                document.getElementById( 'spinner' ).style.display = "none";
 
                 $scope.preLoadTextures();
-            };
+            }
         }
     ]
 );

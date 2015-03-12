@@ -1,5 +1,3 @@
-'use strict';
-
 panoramaApp.factory( "Events", function( Config ) {
     var startX = 0, startY = 0,
         startLon = 0, startLat = 0;
@@ -98,5 +96,5 @@ panoramaApp.factory( "Events", function( Config ) {
         onDocumentMouseWheel: onDocumentMouseWheel,
         //
         onWindowResize: onWindowResize
-    };
+    }
 } );
