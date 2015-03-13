@@ -1,8 +1,10 @@
 'use strict';
 
-panoramaApp.controller( 'panoramaController',
+angular.module( 'app' ).controller( 'panoramaController',
     [ '$scope', '$location', 'Panoramas', 'Config', 'Events',
         function( $scope, $location, Panoramas, Config, Events ) {
+            var vm = this;
+
             $scope.$watch( function() {
                     return $location.hash();
                 },
@@ -12,47 +14,47 @@ panoramaApp.controller( 'panoramaController',
             );
 
             $scope.$watch( 'id', function( id ) {
-                if ( !$scope.scene ) {
-                    Panoramas.query( $scope.initEngine );
+                if ( !vm.scene ) {
+                    Panoramas.query( vm.initEngine );
                 } else {
-                    $scope.panorama = Panoramas.get( id );
-                    $scope.switchPanorama();
+                    vm.panorama = Panoramas.get( id );
+                    vm.switchPanorama();
                 }
             } );
 
-            $scope.initEngine = function() {
+            vm.initEngine = function() {
                 var container, mesh;
 
-                $scope.panorama = Panoramas.get( $scope.id );
+                vm.panorama = Panoramas.get( $scope.id );
 
                 container = document.getElementById( 'container' );
 
                 Config.camera.target = new THREE.Vector3( 0, 0, 0 );
 
-                $scope.scene = new THREE.Scene();
+                vm.scene = new THREE.Scene();
 
                 var geometry = new THREE.SphereGeometry( 500, 60, 40 );
                 geometry.applyMatrix( new THREE.Matrix4().makeScale( -1, 1, 1 ) );
 
                 var material = new THREE.MeshBasicMaterial( {
-                    map: THREE.ImageUtils.loadTexture( $scope.panorama.file, null, $scope.hideSpinner )
+                    map: THREE.ImageUtils.loadTexture( vm.panorama.file, null, vm.hideSpinner )
                 } );
 
                 mesh = new THREE.Mesh( geometry, material );
 
-                if ( $scope.scene.children.length > 0 ) {
-                    $scope.scene.remove( $scope.scene.children[ 0 ] );
+                if ( vm.scene.children.length > 0 ) {
+                    vm.scene.remove( vm.scene.children[ 0 ] );
                 }
 
-                $scope.scene.add( mesh );
+                vm.scene.add( mesh );
 
-                $scope.loadSprites();
+                vm.loadSprites();
 
                 Config.renderer.setSize( window.innerWidth, window.innerHeight );
                 container.appendChild( Config.renderer.domElement );
 
                 if ( Config.debugStats ) {
-                    $scope.debugStats( container );
+                    vm.debugStats( container );
                 }
 
                 document.addEventListener( 'mousedown', Events.onDocumentMouseDown, false );
@@ -67,19 +69,19 @@ panoramaApp.controller( 'panoramaController',
 
                 window.addEventListener( 'resize', Events.onWindowResize, false );
 
-                $scope.animate();
+                vm.animate();
             };
 
-            $scope.animate = function() {
-                requestAnimationFrame( $scope.animate );
-                $scope.update();
+            vm.animate = function() {
+                requestAnimationFrame( vm.animate );
+                vm.update();
 
                 if ( Config.debugStats ) {
-                    $scope.stats.update();
+                    vm.stats.update();
                 }
             };
 
-            $scope.update = function() {
+            vm.update = function() {
                 var vector = new THREE.Vector3( Config.mouse.x, Config.mouse.y, 1 );
                 vector.unproject( Config.camera );
 
@@ -89,18 +91,18 @@ panoramaApp.controller( 'panoramaController',
                 var intersects = raycaster.intersectObjects( Config.elements );
 
                 if ( intersects.length > 0 ) {
-                    if ( $scope.INTERSECTED !== intersects[ 0 ].object ) {
-                        if ( $scope.INTERSECTED ) {
-                            $scope.INTERSECTED.material.map = Config.pointMapHovered;
+                    if ( vm.INTERSECTED !== intersects[ 0 ].object ) {
+                        if ( vm.INTERSECTED ) {
+                            vm.INTERSECTED.material.map = Config.pointMapHovered;
                         }
-                        $scope.INTERSECTED = intersects[ 0 ].object;
-                        $scope.INTERSECTED.material.map = Config.pointMapHovered;
+                        vm.INTERSECTED = intersects[ 0 ].object;
+                        vm.INTERSECTED.material.map = Config.pointMapHovered;
                     }
                 } else {
-                    if ( $scope.INTERSECTED ) {
-                        $scope.INTERSECTED.material.map = Config.pointMap;
+                    if ( vm.INTERSECTED ) {
+                        vm.INTERSECTED.material.map = Config.pointMap;
                     }
-                    $scope.INTERSECTED = null;
+                    vm.INTERSECTED = null;
                 }
 
                 if ( !Config.isUserInteracting && Config.sphereRotation ) {
@@ -116,57 +118,61 @@ panoramaApp.controller( 'panoramaController',
                 Config.camera.target.z = 500 * Math.sin( Config.phi ) * Math.sin( Config.theta );
 
                 Config.camera.lookAt( Config.camera.target );
-                Config.renderer.render( $scope.scene, Config.camera );
+                Config.renderer.render( vm.scene, Config.camera );
             };
 
-            $scope.debugStats = function( container ) {
-                $scope.stats = new Stats();
-                $scope.stats.domElement.style.position = 'absolute';
-                $scope.stats.domElement.style.top = '0px';
-                $scope.stats.domElement.style.zIndex = 100;
-                container.appendChild( $scope.stats.domElement );
+            vm.debugStats = function( container ) {
+                vm.stats = new Stats();
+                vm.stats.domElement.style.position = 'absolute';
+                vm.stats.domElement.style.top = '0px';
+                vm.stats.domElement.style.zIndex = 100;
+                container.appendChild( vm.stats.domElement );
             };
 
-            $scope.loadSprites = function( points ) {
+            vm.loadSprites = function() {
                 // flush sprites array
                 Config.elements = [];
-                $scope.scene.children.length = 1;
+                vm.scene.children.length = 1;
 
-                $scope.panorama.points.forEach( function( item ) {
-                    var sprite = new THREE.Mesh( Config.itemGeometry, new THREE.MeshBasicMaterial( {
-                        map: Config.pointMap,
-                        transparent: true
-                    } ) );
+                if ( vm.panorama.points ) {
+                    vm.panorama.points.forEach( function( item ) {
+                        var sprite = new THREE.Mesh( Config.itemGeometry, new THREE.MeshBasicMaterial( {
+                            map: Config.pointMap,
+                            transparent: true
+                        } ) );
 
-                    sprite.position.x = item.x;
-                    sprite.position.y = item.y;
-                    sprite.position.z = item.z;
-                    sprite.pano_id = item.id;
-                    sprite.position.normalize();
-                    sprite.position.multiplyScalar( 497 );
-                    sprite.lookAt( Config.camera.position );
+                        sprite.position.x = item.x;
+                        sprite.position.y = item.y;
+                        sprite.position.z = item.z;
+                        sprite.panoId = item.id;
+                        sprite.position.normalize();
+                        sprite.position.multiplyScalar( 497 );
+                        sprite.lookAt( Config.camera.position );
 
-                    Config.elements.push( sprite );
-                    $scope.scene.add( sprite );
-                } );
+                        Config.elements.push( sprite );
+                        vm.scene.add( sprite );
+                    } );
+                }
             };
 
-            $scope.switchPanorama = function() {
-                $scope.scene.children[ 0 ].material.map = THREE.ImageUtils.loadTexture( $scope.panorama.file, null, $scope.preLoadTextures() );
-                $scope.loadSprites();
+            vm.switchPanorama = function() {
+                vm.scene.children[ 0 ].material.map = THREE.ImageUtils.loadTexture( vm.panorama.file, null, vm.preLoadTextures() );
+                vm.loadSprites();
             };
 
-            $scope.preLoadTextures = function() {
-                $scope.panorama.points.forEach( function( item ) {
-                    new Image().src = Panoramas.get( item.id ).file;
-                } );
+            vm.preLoadTextures = function() {
+                if ( vm.panorama.points ) {
+                    vm.panorama.points.forEach( function( item ) {
+                        new Image().src = Panoramas.get( item.id ).file;
+                    } );
+                }
             };
 
-            $scope.hideSpinner = function() {
+            vm.hideSpinner = function() {
                 document.getElementById( 'container' ).style.display = 'block';
                 document.getElementById( 'spinner' ).style.display = 'none';
 
-                $scope.preLoadTextures();
+                vm.preLoadTextures();
             };
         }
     ]

@@ -1,10 +1,10 @@
 'use strict';
 
-panoramaApp.value( 'Config', {
+angular.module( 'app' ).value( 'Config', {
     /* CONSTANTS */
 
-    apiLink: 'http://pano.ne05ky.me/api/',
-    texturePath: 'http://pano.ne05ky.me/api/textures/',
+    apiLink: '/api/',
+    texturePath: '/api/textures/',
     defaultId: 1,
     minZoom: 45,                            // zooming limit
     maxZoom: 75,                            //

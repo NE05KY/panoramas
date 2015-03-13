@@ -31,7 +31,6 @@ body {
     right: 0;
     bottom: 0;
 
-    /*margin: 100px auto;*/
     -webkit-animation: rotateplane 1.2s infinite ease-in-out;
     animation: rotateplane 1.2s infinite ease-in-out;
 }

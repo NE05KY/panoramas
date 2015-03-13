@@ -1,6 +1,6 @@
 'use strict';
 
-panoramaApp.factory( "Events", function( Config ) {
+angular.module( 'app' ).factory( 'Events', function( Config ) {
     var startX = 0, startY = 0,
         startLon = 0, startLat = 0;
 
@@ -28,7 +28,7 @@ panoramaApp.factory( "Events", function( Config ) {
         }
     }
 
-    function onDocumentTouchEnd( event ) {
+    function onDocumentTouchEnd() {
         Config.isUserInteracting = false;
     }
 
@@ -51,7 +51,7 @@ panoramaApp.factory( "Events", function( Config ) {
 
         // if there is one (or more) intersections
         if ( intersects.length ) {
-            location.hash = intersects[ 0 ].object.pano_id;
+            location.hash = intersects[ 0 ].object.panoId;
         }
 
         Config.isUserInteracting = true;
@@ -73,7 +73,7 @@ panoramaApp.factory( "Events", function( Config ) {
         Config.mouse.y = -( event.clientY / window.innerHeight ) * 2 + 1;
     }
 
-    function onDocumentMouseUp( event ) {
+    function onDocumentMouseUp() {
         Config.isUserInteracting = false;
     }
 

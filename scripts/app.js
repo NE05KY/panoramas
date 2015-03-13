@@ -1,8 +1,8 @@
 'use strict';
 
-var panoramaApp = angular.module( 'panoramaApp', [] );
+angular.module( 'app', [] );
 
-panoramaApp.config(
+angular.module( 'app' ).config(
     [ '$locationProvider',
         function( $locationProvider ) {
             $locationProvider.html5Mode( true );
