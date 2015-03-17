@@ -13,10 +13,11 @@ angular.module( 'app' ).factory( 'Panoramas', function( $http, $filter, Config )
 
     function get( id ) {
         id = parseInt( id );
-        if ( isNaN( id ) ) {
-            id = Config.defaultId;
+        if ( id ) {
+            return $filter( 'getById' )( panoramas, id );
+        } else {
+            return panoramas[ 0 ];
         }
-        return $filter( 'getById' )( panoramas, id );
     }
 
     return {

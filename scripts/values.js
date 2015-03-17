@@ -5,7 +5,6 @@ angular.module( 'app' ).value( 'Config', {
 
     apiLink: '/api/',
     texturePath: '/api/textures/',
-    defaultId: 1,
     minZoom: 45,                            // zooming limit
     maxZoom: 75,                            //
     sphereRotation: true,                   // permanent sphere rotation
