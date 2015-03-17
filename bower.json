@@ -7,6 +7,7 @@
     "angular": "1.3.14",
     "angular-resource": "1.3.14",
     "angular-route": "1.3.14",
+    "angular-file-upload": "1.1.5",
     "threejs": "r70",
     "stats.js": "r12",
     "foundation": "5.5.1"
