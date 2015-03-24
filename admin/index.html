@@ -10,6 +10,10 @@
         .row {
             max-width: 80rem;
         }
+
+        #editModal .texture-preview {
+            cursor: pointer;
+        }
     </style>
 
     <!-- libs -->
@@ -22,9 +26,9 @@
 
     <!-- engine -->
     <script src="./app.js"></script>
-
 </head>
 <body ng-controller="PanoramasCtrl">
+
 <nav class="top-bar" data-topbar role="navigation">
     <ul class="title-area">
         <li class="name">
@@ -86,9 +90,10 @@
 <div id="editModal" class="reveal-modal" data-reveal>
     <h2>Panorama edit</h2>
 
-    <div class="row">
-        <div class="large-12 columns">
-            <form name="panoForm">
+    <form name="panoForm">
+        <div class="row">
+            <div class="large-12 columns">
+
                 <div class="row">
                     <div class="large-4 columns">
                         <label>ID (filled automatically)
@@ -101,28 +106,39 @@
                         </label>
                     </div>
                     <div class="large-4 columns">
-                        <div ng-if="!uploader.queue[0]">
+                        <div ng-if="!uploader.queue[0] && !model.file">
                             <label>File
-                                <input type="file" nv-file-select uploader="uploader">
+                                <input type="file" required nv-file-select uploader="uploader">
                             </label>
                         </div>
 
                         <div ng-if="uploader.queue[0]">
-                            <div ng-thumb="{ file: uploader.queue[0]._file, width: 200 }"
-                                 ng-click="uploader.queue[0].remove()" title="Click for removing"></div>
+                            <div ng-thumb="{ file: uploader.queue[0]._file, width: 284 }"
+                                 ng-click="uploader.queue[0].remove()"
+                                 class="texture-preview" title="Click for removing"></div>
+                        </div>
+
+                        <div ng-if="model.file">
+                            <img ng-src="/api/textures/{{model.file}}"
+                                 ng-click=""
+                                 class="texture-preview" title="Click for removing"/>
                         </div>
 
                     </div>
                 </div>
-            </form>
+
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="large-2 large-offset-10 columns">
-            <a href="#" class="button tiny success right" ng-click="save()">Save</a>
+        <div class="row">
+            <div class="large-5 columns">
+                <textarea ng-model="model.description"></textarea>
+            </div>
+            <div class="large-2 large-offset-5 columns">
+                <input class="button tiny success right" type="submit" ng-click="save()"/>
+            </div>
         </div>
-    </div>
-    <a class="close-reveal-modal">&#215;</a>
+    </form>
+    <a class="close-reveal-modal" ng-click="cancel()">&#215;</a>
 </div>
 
 </body>

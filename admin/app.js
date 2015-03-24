@@ -40,23 +40,43 @@ panoramaManager.controller( 'PanoramasCtrl', [ '$scope', 'Panorama', 'FileUpload
         };
 
         $scope.edit = function( pano ) {
+            $scope.isEdit = true;
             $scope.model = pano;
 
             $( '#editModal' ).foundation( 'reveal', 'open' );
         };
 
         $scope.new = function() {
-            $scope.model = {};
+            $scope.isEdit = false;
+            $scope.model = new Panorama();
 
             $( '#editModal' ).foundation( 'reveal', 'open' );
         };
 
         $scope.save = function() {
-            $scope.uploader.queue[ 0 ].upload();
+            if ( $scope.panoForm.$valid && $scope.uploader.queue.length ) {
+                console.log( "saved" );
 
-            //$scope.model.$save();
+                $scope.model.$save( function( data ) {
+                    console.log( data );
+                } );
+
+                $scope.model = new Panorama();
+
+                //$scope.uploader.queue[ 0 ].upload();
+            }
         };
-    } ] );
+
+        $scope.cancel = function() {
+            $( '#editModal' ).foundation( 'reveal', 'close' );
+
+            if ( $scope.uploader.queue.length ) {
+                $scope.uploader.queue[ 0 ].remove();
+            }
+        };
+    }
+] )
+;
 
 panoramaManager.directive( 'ngThumb', [ '$window', function( $window ) {
     var helper = {
