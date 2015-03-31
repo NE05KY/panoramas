@@ -30,7 +30,11 @@ panoramaManager.controller( 'PanoramasCtrl', [ '$scope', 'Panorama', 'FileUpload
             queueLimit: 1
         } );
 
-        $scope.panoramas = Panorama.query();
+        $scope.query = function() {
+            $scope.panoramas = Panorama.query();
+        };
+
+        $scope.query();
 
         $scope.remove = function( pano ) {
             if ( confirm( 'Delete pano?' ) ) {
@@ -43,6 +47,10 @@ panoramaManager.controller( 'PanoramasCtrl', [ '$scope', 'Panorama', 'FileUpload
             $scope.isEdit = true;
             $scope.model = pano;
 
+            if ( $scope.uploader.queue.length ) {
+                $scope.uploader.queue[ 0 ].remove();
+            }
+
             $( '#editModal' ).foundation( 'reveal', 'open' );
         };
 
@@ -50,33 +58,42 @@ panoramaManager.controller( 'PanoramasCtrl', [ '$scope', 'Panorama', 'FileUpload
             $scope.isEdit = false;
             $scope.model = new Panorama();
 
+            if ( $scope.uploader.queue.length ) {
+                $scope.uploader.queue[ 0 ].remove();
+            }
+
             $( '#editModal' ).foundation( 'reveal', 'open' );
         };
 
         $scope.save = function() {
-            if ( $scope.panoForm.$valid && $scope.uploader.queue.length ) {
-                console.log( "saved" );
-
+            if ( $scope.isEdit && $scope.panoForm.$valid && ($scope.model.file || $scope.uploader.queue[ 0 ] ) ) {
                 $scope.model.$save( function( data ) {
-                    console.log( data );
+                    if ( $scope.uploader.queue[ 0 ] ) {
+                        $scope.uploader.queue[ 0 ].formData = [ { 'id': data.id } ];
+                        $scope.uploader.queue[ 0 ].upload();
+                    }
+
+                    $( '#editModal' ).foundation( 'reveal', 'close' );
+                    $scope.query();
                 } );
+            }
+            else if ( !$scope.isEdit && $scope.panoForm.$valid && $scope.uploader.queue[ 0 ] ) {
+                $scope.model.$save( function( data ) {
+                    $scope.uploader.queue[ 0 ].formData = [ { 'id': data.id } ];
+                    $scope.uploader.queue[ 0 ].upload();
 
-                $scope.model = new Panorama();
-
-                //$scope.uploader.queue[ 0 ].upload();
+                    $scope.query();
+                    $( '#editModal' ).foundation( 'reveal', 'close' );
+                    $scope.model = new Panorama();
+                } );
             }
         };
 
         $scope.cancel = function() {
             $( '#editModal' ).foundation( 'reveal', 'close' );
-
-            if ( $scope.uploader.queue.length ) {
-                $scope.uploader.queue[ 0 ].remove();
-            }
         };
     }
-] )
-;
+] );
 
 panoramaManager.directive( 'ngThumb', [ '$window', function( $window ) {
     var helper = {
