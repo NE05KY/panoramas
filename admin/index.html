@@ -126,6 +126,38 @@
             </div>
         </div>
         <div class="row">
+            <div class="large-12 columns">
+                <label>Points</label>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>x</th>
+                        <th>y</th>
+                        <th>z</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="point in model.points">
+                        <td><input type="text" ng-model="point.id"/></td>
+                        <td><input type="text" ng-model="point.x"/></td>
+                        <td><input type="text" ng-model="point.y"/></td>
+                        <td><input type="text" ng-model="point.z"/></td>
+                        <td>
+                            <button class="tiny alert" ng-click="removePoint(point)">Remove</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="5">
+                            <button class="tiny right" ng-click="addPoint()">Add</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
             <div class="large-2 large-offset-10 columns">
                 <input class="button tiny success right" type="submit" ng-click="save()"/>
             </div>

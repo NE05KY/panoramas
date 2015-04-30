@@ -92,6 +92,14 @@ panoramaManager.controller( 'PanoramasCtrl', [ '$scope', 'Panorama', 'FileUpload
         $scope.cancel = function() {
             $( '#editModal' ).foundation( 'reveal', 'close' );
         };
+
+        $scope.removePoint = function( point ) {
+            $scope.model.points.splice( $scope.model.points.indexOf( point ), 1 );
+        };
+
+        $scope.addPoint = function() {
+            $scope.model.points.push( {} );
+        };
     }
 ] );
 
