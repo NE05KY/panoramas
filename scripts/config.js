@@ -7,7 +7,7 @@ angular.module( 'app' ).value( 'Config', {
     texturePath: '/api/textures/',
     minZoom: 45,                            // zooming limit
     maxZoom: 75,                            //
-    sphereRotation: true,                   // permanent sphere rotation
+    sphereRotation: false,                   // permanent sphere rotation
     debugStats: true,                       // showing FPS
 
     /* VARIABLES */

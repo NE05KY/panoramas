@@ -4,11 +4,11 @@
   "private": true,
   "homepage": "https://github.com/NE05KY/panoramas",
   "dependencies": {
-    "angular": "1.3.14",
-    "angular-resource": "1.3.14",
-    "angular-route": "1.3.14",
+    "angular": "1.3.15",
+    "angular-resource": "1.3.15",
+    "angular-route": "1.3.15",
     "angular-file-upload": "1.1.5",
-    "threejs": "r70",
+    "threejs": "r71",
     "stats.js": "r12",
     "foundation": "5.5.1"
   }

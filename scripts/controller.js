@@ -163,7 +163,10 @@ angular.module( 'app' ).controller( 'panoramaController',
             vm.preLoadTextures = function() {
                 if ( vm.panorama.points ) {
                     vm.panorama.points.forEach( function( item ) {
-                        new Image().src = Panoramas.get( item.id ).file;
+                        var siblingPano = Panoramas.get( item.id );
+                        if ( siblingPano.file ) {
+                            new Image().src = siblingPano.file;
+                        }
                     } );
                 }
             };

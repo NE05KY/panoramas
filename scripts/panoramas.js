@@ -12,7 +12,6 @@ angular.module( 'app' ).factory( 'Panoramas', function( $http, $filter, Config )
     }
 
     function get( id ) {
-        id = parseInt( id );
         if ( id ) {
             return $filter( 'getById' )( panoramas, id );
         } else {
