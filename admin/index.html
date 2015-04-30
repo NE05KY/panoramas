@@ -6,15 +6,7 @@
 
     <link rel="stylesheet" href="../bower_components/foundation/css/normalize.css">
     <link rel="stylesheet" href="../bower_components/foundation/css/foundation.css">
-    <style>
-        .row {
-            max-width: 80rem;
-        }
-
-        #editModal .texture-preview {
-            cursor: pointer;
-        }
-    </style>
+    <link rel="stylesheet" href="../styles/style-admin.css"/>
 
     <!-- libs -->
     <script src="../bower_components/angular/angular.js"></script>
@@ -23,9 +15,11 @@
     <script src="../bower_components/angular-file-upload/angular-file-upload.min.js"></script>
     <script src="../bower_components/jquery/dist/jquery.min.js"></script>
     <script src="../bower_components/foundation/js/foundation.min.js"></script>
+    <script src="/bower_components/threejs/build/three.min.js"></script>
 
     <!-- engine -->
     <script src="./app.js"></script>
+    <script src="./pano-engine.js"></script>
 </head>
 <body ng-controller="PanoramasCtrl">
 
@@ -58,6 +52,7 @@
                 <th>ID</th>
                 <th width="200">Image</th>
                 <th>Name</th>
+                <th width="500">Description</th>
                 <th>Points</th>
                 <th>Actions</th>
             </tr>
@@ -71,7 +66,8 @@
                     </a>
                 </td>
                 <td>{{pano.name}}</td>
-                <td>{{pano.points}}</td>
+                <td>{{pano.description}}</td>
+                <td>{{pano.points.length || 0}}</td>
                 <td>
                     <ul class="button-group round">
                         <li><a href="#" class="tiny button success" ng-click="edit(pano)">Edit</a></li>
@@ -150,11 +146,17 @@
                     </tr>
                     <tr>
                         <td colspan="5">
+                            <button class="tiny left" ng-click="show3D()">Show 3D</button>
                             <button class="tiny right" ng-click="addPoint()">Add</button>
                         </td>
                     </tr>
                     </tbody>
                 </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="large-12 columns">
+                <div id="container"></div>
             </div>
         </div>
         <div class="row">

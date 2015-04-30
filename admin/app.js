@@ -23,8 +23,8 @@ panoramaManager.factory( 'Panorama', [ '$resource',
         } );
     } ] );
 
-panoramaManager.controller( 'PanoramasCtrl', [ '$scope', 'Panorama', 'FileUploader',
-    function( $scope, Panorama, FileUploader ) {
+panoramaManager.controller( 'PanoramasCtrl', [ '$scope', 'Panorama', 'FileUploader', 'panoramaEngine',
+    function( $scope, Panorama, FileUploader, panoramaEngine ) {
         $scope.uploader = new FileUploader( {
             url: '/api/index.php',
             queueLimit: 1
@@ -99,6 +99,11 @@ panoramaManager.controller( 'PanoramasCtrl', [ '$scope', 'Panorama', 'FileUpload
 
         $scope.addPoint = function() {
             $scope.model.points.push( {} );
+        };
+
+        $scope.show3D = function() {
+            $( '#container' ).show();
+            panoramaEngine.initEngine( $scope.model );
         };
     }
 ] );

@@ -1,0 +1,13 @@
+.row {
+    max-width: 80rem;
+}
+
+#editModal .texture-preview {
+    cursor: pointer;
+}
+
+#container {
+    width: 100%;
+    height: 500px;
+    display: none;
+}
