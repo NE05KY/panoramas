@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module( 'app' ).controller( 'panoramaController',
+angular.module( 'panoramas' ).controller( 'panoramaController',
     [ '$scope', '$location', 'Panoramas', 'Config', 'Events',
         function( $scope, $location, Panoramas, Config, Events ) {
             var vm = this;

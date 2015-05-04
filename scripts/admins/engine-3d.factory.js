@@ -1,6 +1,6 @@
 'use strict';
 
-panoramaManager.factory( 'panoramaEngine', [ '$resource',
+angular.module( 'panoramasManager' ).factory( 'panoramaEngine', [ '$resource',
         function() {
             var vm = this;
 
@@ -47,7 +47,7 @@ panoramaManager.factory( 'panoramaEngine', [ '$resource',
 
                 vm.scene.add( mesh );
 
-                vm.loadSprites();
+                vm.loadSprites( vm.panorama.points );
 
                 vm.renderer.setSize( $( '#container' ).width(), $( '#container' ).height() );
                 container.appendChild( vm.renderer.domElement );
@@ -113,13 +113,12 @@ panoramaManager.factory( 'panoramaEngine', [ '$resource',
                 vm.renderer.render( vm.scene, vm.camera );
             };
 
-            vm.loadSprites = function() {
-                // flush sprites array
+            vm.loadSprites = function( sprites ) {
                 vm.elements = [];
                 vm.scene.children.length = 1;
 
-                if ( vm.panorama.points ) {
-                    vm.panorama.points.forEach( function( item ) {
+                if ( sprites ) {
+                    sprites.forEach( function( item ) {
                         var sprite = new THREE.Mesh( vm.itemGeometry, new THREE.MeshBasicMaterial( {
                             map: vm.pointMap,
                             transparent: true
@@ -137,10 +136,6 @@ panoramaManager.factory( 'panoramaEngine', [ '$resource',
                         vm.scene.add( sprite );
                     } );
                 }
-            };
-
-            vm.updateSprites = function() {
-
             };
 
             vm.onWindowResize = function() {
@@ -188,7 +183,7 @@ panoramaManager.factory( 'panoramaEngine', [ '$resource',
 
             return {
                 initEngine: vm.initEngine,
-                updateSprites: vm.updateSprites
+                loadSprites: vm.loadSprites
             };
 
         }

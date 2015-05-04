@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" ng-app="panoramaManager">
+<html lang="en" ng-app="panoramasManager">
 <head>
     <meta charset="utf-8">
     <title>Pano-manager</title>
@@ -18,8 +18,12 @@
     <script src="/bower_components/threejs/build/three.min.js"></script>
 
     <!-- engine -->
-    <script src="/scripts/admins/app.js"></script>
-    <script src="/scripts/admins/pano-engine.js"></script>
+    <script src="/scripts/admins/panoramas-manager.module.js"></script>
+    <script src="/scripts/admins/panoramas-manager.router.js"></script>
+    <script src="/scripts/admins/panoramas.controller.js"></script>
+    <script src="/scripts/admins/panoramas.service.js"></script>
+    <script src="/scripts/admins/ngThumb.directive.js"></script>
+    <script src="/scripts/admins/engine-3d.factory.js"></script>
 </head>
 <body ng-controller="PanoramasCtrl">
 
@@ -137,9 +141,9 @@
                     <tbody>
                     <tr ng-repeat="point in model.points">
                         <td><input type="text" ng-model="point.id"/></td>
-                        <td><input type="text" ng-model="point.x"/></td>
-                        <td><input type="text" ng-model="point.y"/></td>
-                        <td><input type="text" ng-model="point.z"/></td>
+                        <td><input type="number" ng-model="point.x"/></td>
+                        <td><input type="number" ng-model="point.y"/></td>
+                        <td><input type="number" ng-model="point.z"/></td>
                         <td>
                             <button class="tiny alert" ng-click="removePoint(point)">Remove</button>
                         </td>

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module( 'app' ).factory( 'Events', function( Config ) {
+angular.module( 'panoramas' ).factory( 'Events', function( Config ) {
     var startX = 0, startY = 0,
         startLon = 0, startLat = 0;
 

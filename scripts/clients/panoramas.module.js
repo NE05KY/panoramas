@@ -1,8 +1,8 @@
 'use strict';
 
-angular.module( 'app', [] );
+angular.module( 'panoramas', [] );
 
-angular.module( 'app' ).config(
+angular.module( 'panoramas' ).config(
     [ '$locationProvider',
         function( $locationProvider ) {
             $locationProvider.html5Mode( true );

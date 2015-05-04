@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module( 'app' ).factory( 'Panoramas', function( $http, $filter, Config ) {
+angular.module( 'panoramas' ).factory( 'Panoramas', function( $http, $filter, Config ) {
     var panoramas;
 
     function query( callback ) {

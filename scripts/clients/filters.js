@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module( 'app' ).filter( 'pathPrepend', function( Config ) {
+angular.module( 'panoramas' ).filter( 'pathPrepend', function( Config ) {
     return function( input ) {
         var i = 0, len = input.length;
         for ( ; i < len; i++ ) {
@@ -10,7 +10,7 @@ angular.module( 'app' ).filter( 'pathPrepend', function( Config ) {
     };
 } );
 
-angular.module( 'app' ).filter( 'getById', function() {
+angular.module( 'panoramas' ).filter( 'getById', function() {
     return function( input, id ) {
         var i = 0, len = input.length;
         for ( ; i < len; i++ ) {

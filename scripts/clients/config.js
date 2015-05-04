@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module( 'app' ).value( 'Config', {
+angular.module( 'panoramas' ).value( 'Config', {
     /* CONSTANTS */
 
     apiLink: '/api/',
