@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module( 'panoramas' ).factory( 'Events', function( Config ) {
+function eventsFactory( Config ) {
     var startX = 0, startY = 0,
         startLon = 0, startLat = 0;
 
@@ -31,7 +31,6 @@ angular.module( 'panoramas' ).factory( 'Events', function( Config ) {
     function onDocumentTouchEnd() {
         Config.isUserInteracting = false;
     }
-
 
     function onDocumentMouseDown( event ) {
         // update the mouse variable
@@ -99,4 +98,6 @@ angular.module( 'panoramas' ).factory( 'Events', function( Config ) {
         //
         onWindowResize: onWindowResize
     };
-} );
+}
+
+angular.module( 'panoramas' ).factory( 'Events', eventsFactory );

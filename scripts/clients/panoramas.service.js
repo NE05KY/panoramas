@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module( 'panoramas' ).factory( 'Panoramas', function( $http, $filter, Config ) {
+function panoramaService( $http, $filter, Config ) {
     var panoramas;
 
     function query( callback ) {
@@ -23,4 +23,6 @@ angular.module( 'panoramas' ).factory( 'Panoramas', function( $http, $filter, Co
         get: get,
         query: query
     };
-} );
+}
+
+angular.module( 'panoramas' ).factory( 'Panoramas', panoramaService );

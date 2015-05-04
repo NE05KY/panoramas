@@ -1,18 +1,33 @@
 {
+  "plugins": ["angular"],
   "env": {
     "browser": 1
   },
-
   "globals": {
     "angular": 1,
     "THREE": 1,
     "Stats": 1,
     "$": 1
   },
-
   "rules": {
-    "quotes": [2, "single"],
-    "global-strict": 0, // deprecated rule
-    "eol-last": 0
+    "global-strict": [
+      2,
+      "always"
+    ],
+    "quotes": [
+      2,
+      "single"
+    ],
+    "eol-last": 0,
+    "angular/ng_controller_name": [
+      2,
+      "/[A-Z].*Controller$/"
+    ],
+    "angular/ng_di": [
+      2,
+      "function"
+    ],
+    "angular/ng_document_service": 0,
+    "angular/ng_window_service": 0
   }
 }

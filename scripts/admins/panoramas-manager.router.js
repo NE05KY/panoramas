@@ -1,12 +1,12 @@
 'use strict';
 
-angular.module( 'panoramasManager' ).config( [ '$routeProvider',
-    function( $routeProvider ) {
-        $routeProvider.
-            when( '/panoramas', {
-                controller: 'PanoramasCtrl'
-            } ).
-            otherwise( {
-                redirectTo: '/panoramas'
-            } );
-    } ] );
+angular.module( 'panoramasManager' ).config( function( $routeProvider ) {
+    $routeProvider.
+        when( '/panoramas', {
+            controller: 'PanoramasCtrl',
+            controllerAs: 'panoCtrl'
+        } ).
+        otherwise( {
+            redirectTo: '/panoramas'
+        } );
+} );

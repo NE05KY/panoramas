@@ -23,9 +23,9 @@
     <script src="/scripts/admins/panoramas.controller.js"></script>
     <script src="/scripts/admins/panoramas.service.js"></script>
     <script src="/scripts/admins/ngThumb.directive.js"></script>
-    <script src="/scripts/admins/engine-3d.factory.js"></script>
+    <script src="/scripts/admins/previewEngine.service.js"></script>
 </head>
-<body ng-controller="PanoramasCtrl">
+<body ng-controller="PanoramasController">
 
 <nav class="top-bar" data-topbar role="navigation">
     <ul class="title-area">
@@ -141,9 +141,9 @@
                     <tbody>
                     <tr ng-repeat="point in model.points">
                         <td><input type="text" ng-model="point.id"/></td>
-                        <td><input type="number" ng-model="point.x"/></td>
-                        <td><input type="number" ng-model="point.y"/></td>
-                        <td><input type="number" ng-model="point.z"/></td>
+                        <td><input type="number" step="10" ng-model="point.x"/></td>
+                        <td><input type="number" step="10" ng-model="point.y"/></td>
+                        <td><input type="number" step="10" ng-model="point.z"/></td>
                         <td>
                             <button class="tiny alert" ng-click="removePoint(point)">Remove</button>
                         </td>
