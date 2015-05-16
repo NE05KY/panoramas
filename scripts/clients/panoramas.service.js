@@ -19,8 +19,13 @@ function panoramaService( $http, $filter, Config ) {
         }
     }
 
+    function findByName( name ) {
+        return $filter( 'findByName' )( panoramas, name );
+    }
+
     return {
         get: get,
+        findByName: findByName,
         query: query
     };
 }

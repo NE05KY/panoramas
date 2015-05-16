@@ -4,6 +4,8 @@
 function PanoramaController( $scope, $location, Panoramas, Config, Events ) {
     var vm = this;
 
+    vm.header = '';
+
     $scope.$watch( function() {
             return $location.hash();
         },
@@ -18,6 +20,7 @@ function PanoramaController( $scope, $location, Panoramas, Config, Events ) {
         } else {
             vm.panorama = Panoramas.get( id );
             vm.switchPanorama();
+            vm.header = vm.panorama.name;
         }
     } );
 
@@ -25,6 +28,7 @@ function PanoramaController( $scope, $location, Panoramas, Config, Events ) {
         var container, mesh;
 
         vm.panorama = Panoramas.get( $scope.id );
+        vm.header = vm.panorama.name;
 
         container = document.getElementById( 'container' );
 
@@ -175,7 +179,14 @@ function PanoramaController( $scope, $location, Panoramas, Config, Events ) {
         document.getElementById( 'spinner' ).style.display = 'none';
 
         vm.preLoadTextures();
+        vm.generateList();
     };
+
+    vm.generateList = function( ) {
+        console.log(vm.searchQuery);
+        vm.panoramas = Panoramas.findByName( vm.searchQuery );
+        console.log(vm.panoramas);
+    }
 }
 
 angular.module( 'panoramas' ).controller( 'PanoramaController', PanoramaController );

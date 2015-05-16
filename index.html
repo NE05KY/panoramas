@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="en" ng-app="panoramas">
+<html lang="en" ng-app="panoramas" ng-controller="PanoramaController as panoCtrl">
 <head>
   <meta charset="utf-8">
   <meta name="viewport"
         content="width=device-width, initial-scale=0.5, minimum-scale=0.5, maximum-scale=0.5, ya-title=fade,ya-dock=fade">
-  <title>PANORAMAS</title>
+  <title ng-bind="'Panoramas - ' + panoCtrl.header"></title>
 
   <script>
     document.write( '<base href="' + document.location + '" />' );
@@ -12,7 +12,23 @@
 
   <link rel="stylesheet" href="/styles/style.css">
 </head>
-<body ng-controller="PanoramaController">
+<body>
+  <div id="menu">
+    <a href class="close">&#215;</a>
+
+    <h1>{{panoCtrl.panorama.name}}</h1>
+    <p>{{panoCtrl.panorama.description}}</p>
+
+    <input type="search" ng-model="panoCtrl.searchQuery" ng-change="panoCtrl.generateList()" placeholder="Search places"></input> 
+    <ul>
+      <li ng-repeat="pano in panoCtrl.panoramas">
+        <div class="fake-preview"></div>
+        <a ng-href="#{{pano.id}}">{{pano.name}}</a>
+        <p>{{pano.description}}</p>
+        <hr>
+      </li>
+    </ul>
+  </div>
   <div id="spinner"></div>
   <div id="container"></div>
 

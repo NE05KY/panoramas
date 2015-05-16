@@ -19,6 +19,105 @@ body {
     cursor: move;
 }
 
+#menu {
+  position: absolute;
+  top: 5px;
+  right: 23px;
+  width: 640px;
+  max-height: 395px;
+  padding-bottom: 15px;
+  
+  border-radius: 8px;
+  background: rgba(0,0,0,.5);
+  overflow: hidden;
+
+  font-family: 'Arial';
+}
+
+#menu a.close {
+  font-size: 30px;
+  line-height: 1;
+  position: absolute;
+  top: 20px;
+  right: 27px;
+  color: #AAAAAA;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+#menu input {
+  width: 600px;
+  height: 45px;
+  margin: 0 20px;
+  padding: 5px 10px;
+  box-sizing: border-box;
+  background: rgba(78,78,78,.8);
+  border: none;
+  color: #f5f4f2;;
+}
+
+#menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+#menu li {
+    padding: 23px 25px 5px 25px;
+}
+
+#menu li:last-child hr {
+    display:none;
+}
+
+#menu h1 {
+    margin: 20px;
+    color: #f5f4f2;
+    font-size: 20px;
+}
+
+#menu li a {
+  color: white;
+  text-decoration: none;
+  margin-left: 20px;
+}
+
+#menu li a:hover {
+  border-bottom: 1px dotted white; 
+}
+
+#menu li p {
+  margin: 3px 0 0 59px;
+  height: 66px;
+  overflow: hidden;
+}
+
+#menu hr {
+  width: 80%;
+  background: rgba(255,255,255,.3);
+  display: block;
+  border: none;
+  height: 1px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+#menu .fake-preview {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: grey;
+  float: left;
+}
+
+#menu p {
+  margin: 20px 24px;
+  color: #b3aeaa;
+  line-height: 21px;
+  font-size: 16px;
+}
+
 #spinner {
     width: 60px;
     height: 60px;
