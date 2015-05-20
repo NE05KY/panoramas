@@ -8,7 +8,6 @@ angular.module( 'panoramas' ).value( 'Config', {
     minZoom: 45,                            // zooming limit
     maxZoom: 75,                            //
     sphereRotation: false,                   // permanent sphere rotation
-    debugStats: true,                       // showing FPS
 
     /* VARIABLES */
 

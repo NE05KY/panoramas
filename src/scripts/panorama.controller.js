@@ -56,10 +56,6 @@ function PanoramaController( $scope, $location, Panoramas, Config, Events ) {
         Config.renderer.setSize( window.innerWidth, window.innerHeight );
         container.appendChild( Config.renderer.domElement );
 
-        if ( Config.debugStats ) {
-            vm.debugStats( container );
-        }
-
         document.addEventListener( 'mousedown', Events.onDocumentMouseDown, false );
         document.addEventListener( 'mousemove', Events.onDocumentMouseMove, false );
         document.addEventListener( 'mouseup', Events.onDocumentMouseUp, false );
@@ -78,10 +74,6 @@ function PanoramaController( $scope, $location, Panoramas, Config, Events ) {
     vm.animate = function() {
         requestAnimationFrame( vm.animate );
         vm.update();
-
-        if ( Config.debugStats ) {
-            vm.stats.update();
-        }
     };
 
     vm.update = function() {
@@ -122,14 +114,6 @@ function PanoramaController( $scope, $location, Panoramas, Config, Events ) {
 
         Config.camera.lookAt( Config.camera.target );
         Config.renderer.render( vm.scene, Config.camera );
-    };
-
-    vm.debugStats = function( container ) {
-        vm.stats = new Stats();
-        vm.stats.domElement.style.position = 'absolute';
-        vm.stats.domElement.style.top = '0px';
-        vm.stats.domElement.style.zIndex = 100;
-        container.appendChild( vm.stats.domElement );
     };
 
     vm.loadSprites = function() {
