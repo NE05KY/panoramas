@@ -18,14 +18,32 @@ var gulp = require( 'gulp' ),
     del = require( 'del' ),
     mainBowerFiles = require( 'main-bower-files' );
 
+var config = {
+    index: {
+        src: 'src/index.html',
+        dst: 'dist/'
+    },
+    scripts: {
+        src: [ 'src/scripts/*.module.js', 'src/scripts/*.js' ],
+        dst: 'dist/scripts'
+    },
+    styles: {
+        src: 'src/styles/*.css',
+        dst: 'dist/styles/'
+    },
+    images: {
+        src: 'src/img/*.png',
+        dst: 'dist/styles/'
+    }
+};
+
 var onError = notify.onError( {
     title: 'Error',
-    //subtitle: '<%= error.file.relative %> did not compile!',
     message: '<%= error.message %>'
 } );
 
 gulp.task( 'index', function() {
-    return gulp.src( 'src/index.html' )
+    return gulp.src( config.index.src )
         .pipe( plumber( {
             errorHandler: onError
         } ) )
@@ -36,12 +54,12 @@ gulp.task( 'index', function() {
         //    ),
         //    { name: 'bower', addPrefix: 'libs' }
         //) )
-        .pipe( gulp.dest( 'dist/' ) )
+        .pipe( gulp.dest( config.index.dst ) )
         .pipe( connect.reload() );
 } );
 
 gulp.task( 'scripts', function() {
-    return gulp.src( [ 'src/scripts/*.module.js', 'src/scripts/*.js' ] )
+    return gulp.src( config.scripts.src )
         .pipe( plumber( {
             errorHandler: onError
         } ) )
@@ -50,36 +68,35 @@ gulp.task( 'scripts', function() {
         .pipe( ngAnnotate() )
         .pipe( uglify() )
         //.pipe( sourcemaps.write( './' ) )
-        .pipe( gulp.dest( 'dist/scripts' ) )
+        .pipe( gulp.dest( config.scripts.dst ) )
         .pipe( connect.reload() );
 } );
 
 gulp.task( 'bower', function() {
     return gulp.src( mainBowerFiles(), { base: 'bower_components' } )
-        .pipe( copy( 'dist/scripts', { prefix: 3 } ) );
+        .pipe( copy( config.scripts.dst, { prefix: 3 } ) );
 } );
 
 gulp.task( 'images', function() {
-    return gulp.src( 'src/img/*.png' )
-        .pipe( gulp.dest( 'dist/styles/' ) )
+    return gulp.src( config.images.src )
+        .pipe( gulp.dest( config.images.dst ) )
         .pipe( connect.reload() );
 } );
 
 gulp.task( 'styles', function() {
-    return gulp.src( 'src/styles/*.css' )
+    return gulp.src( config.styles.src )
         .pipe( plumber( {
             errorHandler: onError
         } ) )
-        .pipe( sourcemaps.init() )
+        //.pipe( sourcemaps.init() )
         .pipe( concat( 'styles.min.css' ) )
-        //.pipe( sass() )
+        .pipe( sass() )
         .pipe( autoprefixer( { cascade: false } ) )
         .pipe( minifyCSS() )
         //.pipe( sourcemaps.write( './' ) )
-        .pipe( gulp.dest( 'dist/styles/' ) )
+        .pipe( gulp.dest( config.styles.dst ) )
         .pipe( connect.reload() );
 } );
-
 
 gulp.task( 'clean', function( cb ) {
     del( [ 'dist/' ], cb );
@@ -103,10 +120,10 @@ gulp.task( 'watch', function() {
         port: 8081
     } );
 
-    gulp.watch( 'src/index.html', [ 'index' ] );
-    gulp.watch( 'src/scripts/*.js', [ 'scripts' ] );
-    gulp.watch( 'src/styles/*.css', [ 'styles' ] );
-    gulp.watch( 'src/img/*.png', [ 'images' ] );
+    gulp.watch( config.index.src, [ 'index' ] );
+    gulp.watch( config.scripts.src, [ 'scripts' ] );
+    gulp.watch( config.styles.src, [ 'styles' ] );
+    gulp.watch( config.images.src, [ 'images' ] );
 } );
 
 gulp.task( 'default', [ 'clean' ], function() {
