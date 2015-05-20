@@ -3,7 +3,7 @@
 angular.module( 'panoramas' ).value( 'Config', {
     /* CONSTANTS */
 
-    apiLink: '/api/',
+    apiLink: '/api/db.json',
     texturePath: '/api/textures/',
     minZoom: 45,                            // zooming limit
     maxZoom: 75,                            //
