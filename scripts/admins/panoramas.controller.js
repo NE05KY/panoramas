@@ -34,6 +34,7 @@ function PanoramasController( $scope, Panorama, FileUploader, previewEngine ) {
     $scope.new = function() {
         $scope.isEdit = false;
         $scope.model = new Panorama();
+        $scope.model.points = [];
 
         if ( $scope.uploader.queue.length ) {
             $scope.uploader.queue[ 0 ].remove();
