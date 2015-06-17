@@ -12,7 +12,11 @@
       "main": "angular.min.js"
     },
     "threejs": {
-      "main": "build/three.min.js"
+      "main": [
+        "build/three.min.js",
+        "examples/js/renderers/SoftwareRenderer.js",
+        "examples/js/renderers/Projector.js"
+      ]
     }
   }
 }

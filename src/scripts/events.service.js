@@ -4,11 +4,11 @@ function eventsFactory( Config ) {
     var startX = 0, startY = 0,
         startLon = 0, startLat = 0;
 
-    function onWindowResize() {
+    function onWindowResize( renderer ) {
         Config.camera.aspect = window.innerWidth / window.innerHeight;
         Config.camera.updateProjectionMatrix();
 
-        Config.renderer.setSize( window.innerWidth, window.innerHeight );
+        renderer.setSize( window.innerWidth, window.innerHeight );
     }
 
     function onDocumentTouchStart( event ) {

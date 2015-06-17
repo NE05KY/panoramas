@@ -74,7 +74,7 @@ gulp.task( 'scripts', function() {
 
 gulp.task( 'bower', function() {
     return gulp.src( mainBowerFiles(), { base: 'bower_components' } )
-        .pipe( copy( config.scripts.dst, { prefix: 3 } ) );
+        .pipe( copy( config.scripts.dst, { prefix: 5 } ) );
 } );
 
 gulp.task( 'images', function() {

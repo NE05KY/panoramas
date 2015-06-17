@@ -53,8 +53,10 @@ function PanoramaController( $scope, $location, Panoramas, Config, Events ) {
 
         vm.loadSprites();
 
-        Config.renderer.setSize( window.innerWidth, window.innerHeight );
-        container.appendChild( Config.renderer.domElement );
+        vm.renderer = vm.webglAvailable() ? new THREE.WebGLRenderer() : new THREE.SoftwareRenderer();
+
+        vm.renderer.setSize( window.innerWidth, window.innerHeight );
+        container.appendChild( vm.renderer.domElement );
 
         document.addEventListener( 'mousedown', Events.onDocumentMouseDown, false );
         document.addEventListener( 'mousemove', Events.onDocumentMouseMove, false );
@@ -66,7 +68,10 @@ function PanoramaController( $scope, $location, Panoramas, Config, Events ) {
 
         document.addEventListener( 'mousewheel', Events.onDocumentMouseWheel, false );
 
-        window.addEventListener( 'resize', Events.onWindowResize, false );
+        window.addEventListener( 'resize', function() {
+                Events.onWindowResize( vm.renderer );
+            }, false
+        );
 
         vm.animate();
     };
@@ -113,7 +118,7 @@ function PanoramaController( $scope, $location, Panoramas, Config, Events ) {
         Config.camera.target.z = 500 * Math.sin( Config.phi ) * Math.sin( Config.theta );
 
         Config.camera.lookAt( Config.camera.target );
-        Config.renderer.render( vm.scene, Config.camera );
+        vm.renderer.render( vm.scene, Config.camera );
     };
 
     vm.loadSprites = function() {
@@ -166,11 +171,21 @@ function PanoramaController( $scope, $location, Panoramas, Config, Events ) {
         vm.generateList();
     };
 
-    vm.generateList = function( ) {
-        console.log(vm.searchQuery);
+    vm.generateList = function() {
         vm.panoramas = Panoramas.findByName( vm.searchQuery );
-        console.log(vm.panoramas);
-    }
+    };
+
+    vm.webglAvailable = function() {
+        try {
+            var canvas = document.createElement( 'canvas' );
+            return !!( window.WebGLRenderingContext && (
+            canvas.getContext( 'webgl' ) ||
+            canvas.getContext( 'experimental-webgl' ) )
+            );
+        } catch ( e ) {
+            return false;
+        }
+    };
 }
 
 angular.module( 'panoramas' ).controller( 'PanoramaController', PanoramaController );
